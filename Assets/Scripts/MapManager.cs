@@ -24,6 +24,7 @@ public class MapManager : MonoBehaviour {
         
     }
 
+    /* 生成逻辑棋盘 */
     public void genMapGrid(int m, int n) {
         mMapGrids = new MapGrid[m][];
         for (int i = 0;i < m;i++) {

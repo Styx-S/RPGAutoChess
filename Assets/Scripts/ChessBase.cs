@@ -5,7 +5,11 @@ public class ChessBase
 {
     private ChessStatus status;     // 棋子状态
     private Player owner;           // 棋子所属玩家
-
+    public Player Owner {
+        get {
+            return owner;
+        }
+    }
     public ChessBase(Player owner, float HP = 100, float strength = 5, float attachDelay = 1.0f, int mobility = 1) {
         this.owner = owner;
         this.status = new ChessStatus(HP, strength, attachDelay, mobility);

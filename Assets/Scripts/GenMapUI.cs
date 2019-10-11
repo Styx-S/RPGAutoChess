@@ -22,6 +22,8 @@ public class GenMapUI : MonoBehaviour {
     void Update() {
         
     }
+
+    /* 界面生成地图 */
     public void genMap() {
         MapGrid[][] grids = GameObject.FindGameObjectWithTag(kControllerName).GetComponent<MapManager>().mapGrids;
         int m = grids.Length;
