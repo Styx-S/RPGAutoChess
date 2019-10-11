@@ -3,16 +3,10 @@ using System.Collections.Generic;
 
 public class ChessBase
 {
-    private float HP;           // 血量
-    private float strength;     // 攻击力
-    private float attachDelay;  // 攻击间隔
-    private int mobility;       // 移动力
+    private ChessStatus status;
 
     public ChessBase(float HP = 100, float strength = 5, float attachDelay = 1.0f, int mobility = 1) {
-        this.HP = HP;
-        this.strength = strength;
-        this.attachDelay = attachDelay;
-        this.mobility = mobility;
+        status = new ChessStatus(HP, strength, attachDelay, mobility);
     }
 
     // 当前位于的棋盘
@@ -25,11 +19,16 @@ public class ChessBase
     private void stupidAI() {
         // 当前是否拥有可攻击对象
 
+            // 当前是否处于可攻击状态
+            if (this.status.canAttach()) {
+                
+            }
+
         // 向最近的敌人移动
     }
 
     public void setInBoard(/* ChessBoard chessboard */) {
-        // 设置当前棋盘
+        // 设置棋子的当前棋盘
 
         // 通知当前棋盘
     }
