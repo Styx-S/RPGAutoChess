@@ -3,10 +3,12 @@ using System.Collections.Generic;
 
 public class ChessBase
 {
-    private ChessStatus status;
+    private ChessStatus status;     // 棋子状态
+    private Player owner;           // 棋子所属玩家
 
-    public ChessBase(float HP = 100, float strength = 5, float attachDelay = 1.0f, int mobility = 1) {
-        status = new ChessStatus(HP, strength, attachDelay, mobility);
+    public ChessBase(Player owner, float HP = 100, float strength = 5, float attachDelay = 1.0f, int mobility = 1) {
+        this.owner = owner;
+        this.status = new ChessStatus(HP, strength, attachDelay, mobility);
     }
 
     // 当前位于的棋盘
