@@ -20,7 +20,7 @@ public class GenPlayMap : MonoBehaviour
         
     }
 	
-	public genMap(int m, int n) {
+	public void genMap(int m, int n) {
 		for (int i = 0;i < m;i++) {
             for (int j = 0;j < n;j++) {
                 GameObject grid = Resources.Load("Textures/MapGrid") as GameObject;
