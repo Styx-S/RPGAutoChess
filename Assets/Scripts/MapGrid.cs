@@ -6,8 +6,8 @@ public class MapGrid : MonoBehaviour
 {
     private int x;
     private int y;
-    private Transform thisTransform;
-    private SpriteRenderer thisSpriteRenderer;
+    private Transform thisTransform = null;
+    private SpriteRenderer thisSpriteRenderer = null;
 	// Start is called before the first frame update
     void Start() {
         
