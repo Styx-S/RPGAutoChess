@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class GenMapUI : MonoBehaviour {
     private Transform thisTransform = null;
-
-    private const string kControllerName = "GameController";
-    private const string kGridName = "MapGrid";
-    private const string kGridSprite = "Textures/MapGrid";
     
     void Awake() {
         thisTransform = GetComponent<Transform>();
@@ -25,7 +21,8 @@ public class GenMapUI : MonoBehaviour {
 
     /* 界面生成地图 */
     public void genMap() {
-        MapGrid[][] grids = GameObject.FindGameObjectWithTag(kControllerName).GetComponent<MapManager>().mapGrids;
+        MapGrid[][] grids = GameObject.FindGameObjectWithTag(CommonDefine.kControllerName)
+            .GetComponent<MapManager>().mapGrids;
         int m = grids.Length;
         int n;
         if (m > 0) {
@@ -35,8 +32,8 @@ public class GenMapUI : MonoBehaviour {
         }
 		for (int i = 0;i < m;i++) {
             for (int j = 0;j < n;j++) {
-                GameObject grid = new GameObject(kGridName);
-                Sprite spr = Resources.Load<Sprite>(kGridSprite);
+                GameObject grid = new GameObject(CommonDefine.kMapGridObjectName);
+                Sprite spr = Resources.Load<Sprite>(CommonDefine.kMapGridSpritePath);
                 grid.AddComponent<SpriteRenderer>().sprite = spr;
                 Vector3 position = new Vector3(i + 0.5f,j + 0.5f,0);
                 grid.transform.position = position;
