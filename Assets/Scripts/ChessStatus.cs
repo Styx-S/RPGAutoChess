@@ -35,6 +35,7 @@ public class ChessStatus
 
     /* 进入攻击冷却 */
     public void setAttachCooling() {
+        attachCooling = true;
         TimerTools.getTimerTools().setTimer(attachCoolingDelay, new TimerAction(resetAttachCooling));
     }
 
@@ -57,6 +58,7 @@ public class ChessStatus
 
     /* 进入移动冷却 */
     public void setMoveCooling() {
+        moveCooling = true;
         TimerTools.getTimerTools().setTimer(moveCoolingDelay, new TimerAction(resetMoveCooling));
     }
 
