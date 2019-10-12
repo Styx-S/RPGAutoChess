@@ -41,7 +41,10 @@ public class TimerTools : MonoBehaviour
         head.nextNode = node;
     }
 
-    /* 到期提醒 */
+    /*  到期提醒
+        interval: 距调用方法需等待的时间(seconds)
+        action: 到时间调用的方法
+     */
     public void setTimer(float interval, TimerAction action) {
         float currentTime = Time.time;
         TimerNode newNode = new TimerNode(currentTime + interval, action);
