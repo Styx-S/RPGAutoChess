@@ -22,7 +22,8 @@ public class CameraController : MonoBehaviour
     }
 
     public void initCamera() {
-        MapGrid[][] grids = GameObject.FindGameObjectWithTag(kControllerName).GetComponent<MapManager>().mapGrids;
+        MapGrid[][] grids = GameObject.FindGameObjectWithTag(CommonDefine.kControllerName)
+            .GetComponent<MapManager>().mapGrids;
         int m = grids.Length;
         int n;
         if (m > 0) {
