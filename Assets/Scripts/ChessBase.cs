@@ -19,9 +19,10 @@ public class ChessBase
             return owner;
         }
     }
-    public ChessBase(Player owner, Vector2Int position, float HP = 100, float strength = 5, float attachDelay = 1.0f, int mobility = 1) {
+    public ChessBase(Player owner, Vector2Int position, float HP = 100, float strength = 5,
+        float attachCoolingDelay = 1.0f, int mobility = 1, float moveCoolingDelay = 1.0f) {
         this.owner = owner;
-        this.status = new ChessStatus(HP, strength, attachDelay, mobility);
+        this.status = new ChessStatus(HP, strength, attachCoolingDelay, mobility, moveCoolingDelay);
         this.position = position;
     }
 
