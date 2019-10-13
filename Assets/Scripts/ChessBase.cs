@@ -6,17 +6,11 @@ public class ChessBase
     private ChessStatus status;     // 棋子状态
     private Player owner;           // 棋子所属玩家
     public ChessLocation location {    // 棋子当前位置
-        get {
-            return location;
-        } set {
-            this.location = value;
-        }
+        get; set;
     }
 
     public Player Owner {           // 棋子所属玩家
-        get {
-            return owner;
-        }
+        get; set;
     }
     public ChessBase(Player owner, ChessLocation location, float HP = 100, float strength = 5,
         float attachCoolingDelay = 1.0f, int mobility = 1, float moveCoolingDelay = 1.0f) {
