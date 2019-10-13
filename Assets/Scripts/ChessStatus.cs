@@ -8,6 +8,7 @@ public class ChessStatus
 {
     private float HP;                   // 血量
     private float strength;             // 攻击力
+    private int attachRadius;         // 攻击范围
     private float attachCoolingDelay;   // 攻击间隔
     private int mobility;               // 移动力
     private float moveCoolingDelay;     // 移动间隔
@@ -15,9 +16,12 @@ public class ChessStatus
     private bool attachCooling; // 攻击冷却状态
     private bool moveCooling;   // 移动冷却状态
 
-    public ChessStatus(float HP, float strength, float attachCoolingDelay, int mobility, float moveCoolingDelay) {
+    public ChessStatus(float HP, float strength, int attachRadius, float attachCoolingDelay,
+        int mobility, float moveCoolingDelay) {
+        
         this.HP = HP;
         this.strength = strength;
+        this.attachRadius = attachRadius;
         this.attachCoolingDelay = attachCoolingDelay;
         this.mobility = mobility;
         this.moveCoolingDelay = moveCoolingDelay;
@@ -40,8 +44,13 @@ public class ChessStatus
     }
 
     /* 获取目前攻击力 */
-    public float attachDamage() {
+    public float getAttachDamage() {
         return strength;
+    }
+
+    /* 获取目前攻击范围 */
+    public int getAttachRadius() {
+        return attachRadius;
     }
 
     /* 受到伤害 */

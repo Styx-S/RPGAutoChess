@@ -15,7 +15,9 @@ public class ChessManager : ManagerInterface
         loadChess();
     }
     void ManagerInterface.update() {
-        // do nothing
+        foreach(ChessBase chess in mChessList) {
+            chess.act();
+        }
     }
 
     /* 从某个地方载入棋子到list中 */
@@ -29,12 +31,24 @@ public class ChessManager : ManagerInterface
         }
         Player playerA = new Player("1","A");   //暂时hardcode，之后用不到
         Player playerB = new Player("2","B");
-        addChess(new ChessBase(playerA,new ChessLocation(0,0)));
-        addChess(new ChessBase(playerA,new ChessLocation(1,1)));
-        addChess(new ChessBase(playerA,new ChessLocation(1,2)));
-        addChess(new ChessBase(playerB,new ChessLocation(5,6)));
-        addChess(new ChessBase(playerB,new ChessLocation(4,5)));
-        addChess(new ChessBase(playerB,new ChessLocation(5,4)));
+        addChess(new ChessBase(playerA),new ChessLocation(0,0));
+        addChess(new ChessBase(playerA),new ChessLocation(1,1));
+        addChess(new ChessBase(playerA),new ChessLocation(1,2));
+        addChess(new ChessBase(playerB),new ChessLocation(5,6));
+        addChess(new ChessBase(playerB),new ChessLocation(4,5));
+        addChess(new ChessBase(playerB),new ChessLocation(5,4));
+    }
+
+    /* delegate： 用于通过ChessManager迭代查找时的过滤条件 */
+    public delegate bool chessFilterMethod(ChessBase chess);
+    public List<ChessBase> pFindChesses(chessFilterMethod filter) {
+        List<ChessBase> results = new List<ChessBase>();
+        foreach(ChessBase chess in mChessList) {
+            if (filter(chess)) {
+                results.Add(chess);
+            }
+        }
+        return results;
     }
 
     /* 为chess选择一个攻击target，target可以不在chess攻击范围内 */
@@ -90,7 +104,10 @@ public class ChessManager : ManagerInterface
     }
 
     /* 增加棋子 */
-    public void addChess(ChessBase chess) {
+    public void addChess(ChessBase chess, ChessLocation location) {
+        // 由ChessManager来通知Chess的新位置
+        chess.notifyLocation(this, location);
+        
         mChessList.Add(chess);
         mChessMap[chess.location.x][chess.location.y] = chess;
         Dictionary<ChessBase,int> dic = new Dictionary<ChessBase, int>();
@@ -115,7 +132,7 @@ public class ChessManager : ManagerInterface
     }
 
     /* 获取两个chess的距离 */
-    public int getDistance(ChessBase chess ,ChessBase target) {
+    public static int getDistance(ChessBase chess ,ChessBase target) {
         ChessLocation chessPosition = chess.location;
         ChessLocation targetPosition = target.location;
         return ChessLocation.getDistance(chess.location,target.location);
