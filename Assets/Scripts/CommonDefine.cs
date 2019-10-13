@@ -20,4 +20,8 @@ public class ChessLocation {
         this.x = x;
         this.y = y;
     }
+
+    public static int getDistance(ChessLocation a, ChessLocation b) {
+        return System.Math.Abs(a.x - b.x) + System.Math.Abs(a.y - b.y);
+    }
 }

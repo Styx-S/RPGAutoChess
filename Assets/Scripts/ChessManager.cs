@@ -6,6 +6,7 @@ public class ChessManager : ManagerInterface
 
     private List<ChessBase> mChessList = new List<ChessBase>();
     private Dictionary<ChessBase,Dictionary<ChessBase,int>> mDistanceMap = new Dictionary<ChessBase, Dictionary<ChessBase, int>>();
+    private ChessBase[][] mChessMap;
 
     string ManagerInterface.getName() {
         return CommonDefine.kManagerChessName;
@@ -19,6 +20,13 @@ public class ChessManager : ManagerInterface
 
     /* 从某个地方载入棋子到list中 */
     public void loadChess() {
+        mChessMap = new ChessBase[6][];
+        for (int i = 0;i < mChessMap.Length;i++) {
+            mChessMap[i] = new ChessBase[7];
+            for (int j = 0;j < mChessMap[i].Length;j++) {
+                mChessMap[i][j] = null;
+            }
+        }
         Player playerA = new Player("1","A");   //暂时hardcode，之后用不到
         Player playerB = new Player("2","B");
         addChess(new ChessBase(playerA,new ChessLocation(0,0)));
@@ -56,7 +64,9 @@ public class ChessManager : ManagerInterface
 
     /* 移动棋子 */
     public void moveChess(ChessBase chess, ChessLocation location) {
+        mChessMap[chess.location.x][chess.location.y] = null;
         chess.location = location;
+        mChessMap[chess.location.x][chess.location.y] = chess;
         foreach (ChessBase e in mDistanceMap[chess].Keys) {
             int distance = getDistance(chess,e);
             mDistanceMap[chess][e] = distance;
@@ -72,6 +82,7 @@ public class ChessManager : ManagerInterface
     /* 移除棋子 */
     public void removeChess(ChessBase chess) {
         mChessList.Remove(chess);
+        mChessMap[chess.location.x][chess.location.y] = null;
         mDistanceMap.Remove(chess);
         foreach (ChessBase e in mDistanceMap.Keys) {
             mDistanceMap[e].Remove(chess);
@@ -81,6 +92,7 @@ public class ChessManager : ManagerInterface
     /* 增加棋子 */
     public void addChess(ChessBase chess) {
         mChessList.Add(chess);
+        mChessMap[chess.location.x][chess.location.y] = chess;
         Dictionary<ChessBase,int> dic = new Dictionary<ChessBase, int>();
         foreach (ChessBase e in mDistanceMap.Keys) {
             int distance = getDistance(chess,e);
@@ -106,6 +118,11 @@ public class ChessManager : ManagerInterface
     public int getDistance(ChessBase chess ,ChessBase target) {
         ChessLocation chessPosition = chess.location;
         ChessLocation targetPosition = target.location;
-        return System.Math.Abs(chessPosition.x - targetPosition.x) + System.Math.Abs(chessPosition.y - targetPosition.y);
+        return ChessLocation.getDistance(chess.location,target.location);
     }
+
+    /* 棋子逼近目标位置 */
+    // public ChessLocation findActualTarget(ChessBase chess, int mobility, ChessLocation target) {
+        
+    // }
 }
