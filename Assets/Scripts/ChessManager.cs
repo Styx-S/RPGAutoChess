@@ -139,7 +139,33 @@ public class ChessManager : ManagerInterface
     }
 
     /* 棋子逼近目标位置 */
-    // public ChessLocation findActualTarget(ChessBase chess, int mobility, ChessLocation target) {
-        
-    // }
+    public ChessLocation findActualTarget(ChessBase chess, int mobility, ChessLocation target) { // 写麻了，之后再优化
+        if (mobility <= 0) {
+            return chess.location;
+        }
+        List<ChessLocation> targets = new List<ChessLocation>();
+        if (mobility >= ChessLocation.getDistance(chess.location,target)) {
+            if (mChessMap[target.x][target.y] == null) {
+                return target;
+            } else {
+                List<ChessLocation> neighbor = ChessLocation.getNeighbor(target);
+                foreach (ChessLocation e in neighbor) {
+                    int distance = ChessLocation.getDistance(chess.location,e);
+                    if (mobility >= distance) {
+                        targets.Add(findActualTarget(chess,distance,e));
+                    }
+                }
+            }
+        } else {
+            List<ChessLocation> limit = ChessLocation.getLimit(chess.location,target,mobility);
+            foreach (ChessLocation e in limit) {
+                targets.Add(findActualTarget(chess,mobility,e));
+            }
+        }
+        if (targets.Count > 0) {
+            return targets[0];
+        } else {
+            return chess.location;
+        }
+    }
 }

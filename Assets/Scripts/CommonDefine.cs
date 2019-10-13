@@ -24,4 +24,51 @@ public class ChessLocation {
     public static int getDistance(ChessLocation a, ChessLocation b) {
         return System.Math.Abs(a.x - b.x) + System.Math.Abs(a.y - b.y);
     }
+
+    public static List<ChessLocation> getNeighbor(ChessLocation a) {
+        List<ChessLocation> list = new List<ChessLocation>();
+        list.Add(new ChessLocation(a.x - 1,a.y));
+        list.Add(new ChessLocation(a.x + 1,a.y));
+        list.Add(new ChessLocation(a.x,a.y - 1));
+        list.Add(new ChessLocation(a.x,a.y + 1));
+        return list;
+    }
+
+    public static List<ChessLocation> getLimit(ChessLocation a, ChessLocation target, int mobility) {
+        List<ChessLocation> list = new List<ChessLocation>();
+        int d = getDistance(a,target) - mobility;
+        int n = d + 1;
+        if (target.x > a.x) {
+            if (target.y > a.y) {
+                for (int i = 0;i < n;i++) {
+                    list.Add(new ChessLocation(target.x - d + i,target.y - i));
+                }
+            } else if (target.y < a.y) {
+                for (int i = 0;i < n;i++) {
+                    list.Add(new ChessLocation(target.x - d + i,target.y + i));
+                }
+            } else {
+                list.Add(new ChessLocation(a.x + mobility,a.y));
+            }
+        }else if (target.x < a.x) {
+            if (target.y > a.y) {
+                for (int i = 0;i < n;i++) {
+                    list.Add(new ChessLocation(target.x + d - i,target.y - i));
+                }
+            } else if (target.y < a.y) {
+                for (int i = 0;i < n;i++) {
+                    list.Add(new ChessLocation(target.x + d - i,target.y + i));
+                }
+            } else {
+                list.Add(new ChessLocation(a.x - mobility,a.y));
+            }
+        } else {
+            if (target.y > a.y) {
+                list.Add(new ChessLocation(a.x,a.y + mobility));
+            } else {
+                list.Add(new ChessLocation(a.x,a.y - mobility));
+            }
+        }
+        return list;
+    }
 }
