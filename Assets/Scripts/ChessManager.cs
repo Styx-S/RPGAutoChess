@@ -1,11 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class ChessManager
+public class ChessManager : ManagerInterface
 {
 
     private List<ChessBase> mChessList = new List<ChessBase>();
     private Dictionary<ChessBase,Dictionary<ChessBase,int>> mDistanceMap = new Dictionary<ChessBase, Dictionary<ChessBase, int>>();
+
+    string ManagerInterface.getName() {
+        return CommonDefine.kManagerChessName;
+    }
+    void ManagerInterface.init() {
+        loadChess();
+    }
+    void ManagerInterface.update() {
+        // do nothing
+    }
 
     /* 从某个地方载入棋子到list中 */
     public void loadChess() {
