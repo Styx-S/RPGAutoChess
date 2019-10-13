@@ -1,34 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class ChessManager : MonoBehaviour
+public class ChessManager : ManagerInterface
 {
 
     private List<ChessBase> mChessList = new List<ChessBase>();
     private Dictionary<ChessBase,Dictionary<ChessBase,int>> mDistanceMap = new Dictionary<ChessBase, Dictionary<ChessBase, int>>();
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    string ManagerInterface.getName() {
+        return CommonDefine.kManagerChessName;
+    }
+    void ManagerInterface.init() {
+        loadChess();
+    }
+    void ManagerInterface.update() {
+        // do nothing
     }
 
     /* 从某个地方载入棋子到list中 */
     public void loadChess() {
         Player playerA = new Player("1","A");   //暂时hardcode，之后用不到
         Player playerB = new Player("2","B");
-        addChess(new ChessBase(playerA,new Vector2Int(0,0)));
-        addChess(new ChessBase(playerA,new Vector2Int(1,1)));
-        addChess(new ChessBase(playerA,new Vector2Int(1,2)));
-        addChess(new ChessBase(playerB,new Vector2Int(5,6)));
-        addChess(new ChessBase(playerB,new Vector2Int(4,5)));
-        addChess(new ChessBase(playerB,new Vector2Int(5,4)));
+        addChess(new ChessBase(playerA,new ChessLocation(0,0)));
+        addChess(new ChessBase(playerA,new ChessLocation(1,1)));
+        addChess(new ChessBase(playerA,new ChessLocation(1,2)));
+        addChess(new ChessBase(playerB,new ChessLocation(5,6)));
+        addChess(new ChessBase(playerB,new ChessLocation(4,5)));
+        addChess(new ChessBase(playerB,new ChessLocation(5,4)));
     }
 
     /* 为chess选择一个攻击target，target可以不在chess攻击范围内 */
@@ -52,13 +50,13 @@ public class ChessManager : MonoBehaviour
     }
 
     /* 获取chess的位置 */
-    public Vector2Int getChessPosition(ChessBase chess) {
-        return chess.position;
+    public ChessLocation getChessPosition(ChessBase chess) {
+        return chess.location;
     }
 
     /* 移动棋子 */
-    public void moveChess(ChessBase chess, Vector2Int position) {
-        chess.position = position;
+    public void moveChess(ChessBase chess, ChessLocation location) {
+        chess.location = location;
         foreach (ChessBase e in mDistanceMap[chess].Keys) {
             int distance = getDistance(chess,e);
             mDistanceMap[chess][e] = distance;
@@ -106,8 +104,8 @@ public class ChessManager : MonoBehaviour
 
     /* 获取两个chess的距离 */
     public int getDistance(ChessBase chess ,ChessBase target) {
-        Vector2Int chessPosition = chess.position;
-        Vector2Int targetPosition = target.position;
+        ChessLocation chessPosition = chess.location;
+        ChessLocation targetPosition = target.location;
         return System.Math.Abs(chessPosition.x - targetPosition.x) + System.Math.Abs(chessPosition.y - targetPosition.y);
     }
 }

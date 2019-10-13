@@ -1,27 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class MapManager : MonoBehaviour {
+public class MapManager : ManagerInterface {
     private MapGrid [][] mMapGrids;
     public MapGrid [][] mapGrids {
         get {
             return mMapGrids;
         }
     }
-    void Awake() {
+    string ManagerInterface.getName() {
+        return CommonDefine.kManagerMapName;
+    }
+    void ManagerInterface.init() {
         genMapGrid(6,7);
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void ManagerInterface.update() {
+        // do nothing
     }
 
     /* 生成逻辑棋盘 */
@@ -30,7 +25,7 @@ public class MapManager : MonoBehaviour {
         for (int i = 0;i < m;i++) {
             mMapGrids[i] = new MapGrid[n];
             for (int j = 0;j < n;j++) {
-                MapGrid grid = new MapGrid(new Vector2Int(i,j));
+                MapGrid grid = new MapGrid(new ChessLocation(i,j));
                 mMapGrids[i][j] = grid;
             }
         }
