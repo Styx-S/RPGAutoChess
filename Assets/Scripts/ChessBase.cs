@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ChessBase
 {
     private ChessStatus status;     // 棋子状态
     private Player owner;           // 棋子所属玩家
-    public Vector2Int position {    // 棋子当前位置
+    public ChessLocation location {    // 棋子当前位置
         get {
-            return position;
+            return location;
         } set {
-            this.position = value;
+            this.location = value;
         }
     }
 
@@ -19,11 +18,11 @@ public class ChessBase
             return owner;
         }
     }
-    public ChessBase(Player owner, Vector2Int position, float HP = 100, float strength = 5,
+    public ChessBase(Player owner, ChessLocation location, float HP = 100, float strength = 5,
         float attachCoolingDelay = 1.0f, int mobility = 1, float moveCoolingDelay = 1.0f) {
         this.owner = owner;
         this.status = new ChessStatus(HP, strength, attachCoolingDelay, mobility, moveCoolingDelay);
-        this.position = position;
+        this.location = location;
     }
 
     // 当前位于的棋盘
