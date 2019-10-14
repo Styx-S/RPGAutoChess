@@ -8,6 +8,8 @@ public class CommonDefine
     public const string kMapGridSpritePath = "Textures/MapGrid";    // Map块素材载入路径
     public const string kChessPrefabPath = "Prefab/DemoChess";   // chess素材载入路径
 
+    public const string kMapGridPrefabPath = "Prefab/MapGrid";
+
     public const string kManagerMapName = "MapManager";         // MapManager键
     public const string kManagerChessName = "ChessManager";     // ChessManager键
 }
