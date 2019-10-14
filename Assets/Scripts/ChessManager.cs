@@ -59,7 +59,7 @@ public class ChessManager : ManagerInterface
             if (e == chess) {
                 continue;
             }
-            if (e.Owner == chess.Owner) {
+            if (e.owner == chess.owner) {
                 continue;
             }
             int len = mDistanceMap[chess][e];
@@ -78,6 +78,9 @@ public class ChessManager : ManagerInterface
 
     /* 移动棋子 */
     public void moveChess(ChessBase chess, ChessLocation location) {
+        // 通知控制器移动棋子
+        UnityControllerCenter.getCenter().sendMessage(new ControllerMessage_chessMove(chess, chess.location, location));
+
         mChessMap[chess.location.x][chess.location.y] = null;
         chess.location = location;
         mChessMap[chess.location.x][chess.location.y] = chess;
@@ -95,6 +98,9 @@ public class ChessManager : ManagerInterface
 
     /* 移除棋子 */
     public void removeChess(ChessBase chess) {
+        // 通知控制器销毁GameObject
+        UnityControllerCenter.getCenter().sendMessage(new ControllerMessage_chessRemove(chess));
+
         mChessList.Remove(chess);
         mChessMap[chess.location.x][chess.location.y] = null;
         mDistanceMap.Remove(chess);
@@ -107,6 +113,9 @@ public class ChessManager : ManagerInterface
     public void addChess(ChessBase chess, ChessLocation location) {
         // 由ChessManager来通知Chess的新位置
         chess.notifyLocation(this, location);
+
+        // 通知控制器生成棋子
+        UnityControllerCenter.getCenter().sendMessage(new ControllerMessage_chessCreate(chess));
         
         mChessList.Add(chess);
         mChessMap[chess.location.x][chess.location.y] = chess;

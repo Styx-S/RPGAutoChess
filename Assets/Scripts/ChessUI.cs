@@ -27,6 +27,8 @@ public class ChessUI : MonoBehaviour
         switch(args.animationType) {
             case ChessAnimationType.Move:
                 ChessAnimationMoveArgs moveArgs = (ChessAnimationMoveArgs) args;
+                Transform transform = GetComponent<Transform>();
+                transform.position = calTransformPosition(moveArgs.to);
                 break;
             case ChessAnimationType.Attach:
                 ChessAnimationAttachArgs attachArgs = (ChessAnimationAttachArgs) args;
@@ -43,5 +45,11 @@ public class ChessUI : MonoBehaviour
     /* 在棋子头上显示信息 */
     private void showMessage(string message) {
 
+    }
+
+    public static Vector3 calTransformPosition(ChessLocation location) {
+        return new Vector3(CommonDefine.kDatumPointX + CommonDefine.kChessBoardDistanceUnit * location.x,
+                CommonDefine.kDatumPointY + CommonDefine.kChessBoardDistanceUnit * location.y,
+                CommonDefine.kChessZAxisOffset);
     }
 }

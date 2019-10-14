@@ -4,13 +4,11 @@ using System.Collections.Generic;
 public class ChessBase
 {
     private ChessStatus status;         // 棋子状态
-    private Player owner;               // 棋子所属玩家
-    private ChessManager chessManager;  // 当前托管的Manager   
-    public ChessLocation location {     // 棋子当前位置
+    public Player owner {               // 棋子所属玩家
         get; set;
     }
-
-    public Player Owner {           // 棋子所属玩家
+    private ChessManager chessManager;  // 当前托管的Manager   
+    public ChessLocation location {     // 棋子当前位置
         get; set;
     }
     public bool isDead;             // 棋子是否死亡
@@ -46,7 +44,7 @@ public class ChessBase
         } else {
             // 当前是否处于可攻击状态
             if (this.status.canAttach()) {
-                target.underAttach(status.getAttachDamage());
+                target.underAttach(this, status.getAttachDamage());
                 status.setAttachCooling();
             }
         }
@@ -60,8 +58,10 @@ public class ChessBase
     /* 棋子被攻击 
        @return 攻击造成的实际伤害
          */
-    public float underAttach(float damage) {
+    public float underAttach(ChessBase attacher, float damage) {
         float casueDamage = this.status.damage(damage);
+        // 通知控制器
+        UnityControllerCenter.getCenter().sendMessage(new ControllerMessage_chessAttach(attacher, this, casueDamage));
         return casueDamage;
     }
 
