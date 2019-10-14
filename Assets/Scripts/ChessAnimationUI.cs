@@ -9,12 +9,7 @@ public enum ChessAnimationType {
 
 public class ChessAnimationArgs {
     public ChessAnimationType animationType {
-        get {
-            return animationType;
-        }
-        private set {
-            this.animationType = value;
-        }
+        get; set;
     }
 
     public ChessAnimationArgs(ChessAnimationType type) {
@@ -25,9 +20,20 @@ public class ChessAnimationArgs {
 
 /* 棋子移动动效所需参数 */
 public class ChessAnimationMoveArgs : ChessAnimationArgs {
-    
-    public ChessAnimationMoveArgs() : base(ChessAnimationType.Move) {
+    public ChessLocation from {
+        get; set;
+    }
+    public ChessLocation to {
+        get; set;
+    }
 
+    public ChessAnimationMoveArgs(ChessLocation from, ChessLocation to) : base(ChessAnimationType.Move) {
+        this.from = from;
+        this.to = to;
+    }
+
+    public static ChessAnimationMoveArgs transfrom(ControllerMessage_chessMove message) {
+        return new ChessAnimationMoveArgs(message.from, message.to);
     }
 }
 
@@ -41,8 +47,11 @@ public class ChessAnimationAttachArgs : ChessAnimationArgs {
 
 /* 棋子受伤害动效所需参数 */
 public class ChessAnimationHurtArgs : ChessAnimationArgs {
+    public float causeDamage {
+        get; set;
+    }
 
-    public ChessAnimationHurtArgs() : base(ChessAnimationType.Hurt) {
-
+    public ChessAnimationHurtArgs(float causeDamage) : base(ChessAnimationType.Hurt) {
+        this.causeDamage = causeDamage;
     }
 }
