@@ -51,24 +51,53 @@ public class ChessLocation {
         int n = d + 1;
         if (target.x > a.x) {
             if (target.y > a.y) {
-                for (int i = 0;i < n;i++) {
-                    list.Add(new ChessLocation(target.x - d + i,target.y - i));
+                if (d > mobility) {
+                    int m = mobility + 1;
+                    for (int i = 0;i < m;i++) {
+                        list.Add(new ChessLocation(a.x + mobility - i,a.y + i));
+                    }
+                } else {
+                    for (int i = 0;i < n;i++) {
+                        list.Add(new ChessLocation(target.x - d + i,target.y - i));
+                    }
                 }
             } else if (target.y < a.y) {
-                for (int i = 0;i < n;i++) {
-                    list.Add(new ChessLocation(target.x - d + i,target.y + i));
+                if (d > mobility) {
+                    int m = mobility + 1;
+                    for (int i = 0;i < m;i++) {
+                        list.Add(new ChessLocation(a.x + mobility - i,a.y - i));
+                    }
+                } else {
+                    for (int i = 0;i < n;i++) {
+                        list.Add(new ChessLocation(target.x - d + i,target.y + i));
+                    }
                 }
             } else {
                 list.Add(new ChessLocation(a.x + mobility,a.y));
             }
         }else if (target.x < a.x) {
             if (target.y > a.y) {
-                for (int i = 0;i < n;i++) {
-                    list.Add(new ChessLocation(target.x + d - i,target.y - i));
+                if (d > mobility) {
+                    int m = mobility + 1;
+                    for (int i = 0;i < m;i++) {
+                        list.Add(new ChessLocation(a.x - mobility + i,a.y + i));
+                    }
+                } else {
+                    for (int i = 0;i < n;i++) {
+                        list.Add(new ChessLocation(target.x + d - i,target.y - i));
+                    }
                 }
+
             } else if (target.y < a.y) {
-                for (int i = 0;i < n;i++) {
-                    list.Add(new ChessLocation(target.x + d - i,target.y + i));
+                if (d > mobility) {
+                    int m = mobility + 1;
+                    for (int i = 0;i < m;i++) {
+                        list.Add(new ChessLocation(a.x - mobility + i,a.y - i));
+                    }
+                } else {
+                    for (int i = 0;i < n;i++) {
+                        list.Add(new ChessLocation(target.x + d - i,target.y + i));
+                    }
                 }
             } else {
                 list.Add(new ChessLocation(a.x - mobility,a.y));
