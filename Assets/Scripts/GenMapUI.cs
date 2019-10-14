@@ -33,12 +33,11 @@ public class GenMapUI : MonoBehaviour {
         } else {
             return;
         }
+        GameObject prefGrid = (GameObject)Resources.Load(CommonDefine.kMapGridPrefabPath);
 		for (int i = 0;i < m;i++) {
             for (int j = 0;j < n;j++) {
-                GameObject grid = new GameObject(CommonDefine.kMapGridObjectName);
-                Sprite spr = Resources.Load<Sprite>(CommonDefine.kMapGridSpritePath);
-                grid.AddComponent<SpriteRenderer>().sprite = spr;
-                Vector3 position = new Vector3(i + 0.5f,j + 0.5f,0);
+                Vector3 position = new Vector3(i + 0.5f,j + 0.5f,100);
+                GameObject grid = Instantiate(prefGrid);
                 grid.transform.position = position;
                 grid.transform.parent = thisTransform;
             }
