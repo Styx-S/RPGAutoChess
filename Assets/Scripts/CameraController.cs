@@ -35,7 +35,9 @@ public class CameraController : MonoBehaviour
         } else {
             return;
         }
-        Vector3 position = new Vector3(m / 2,n / 2,-10);
+        Vector3 position = new Vector3((m - 1) * CommonDefine.kChessBoardDistanceUnit / 2 + CommonDefine.kDatumPointX,
+            (n - 1) * CommonDefine.kChessBoardDistanceUnit / 2 + CommonDefine.kDatumPointY,
+            CommonDefine.kCameraZAxisOffset);
         thisTransform.position = position;
     }
 }

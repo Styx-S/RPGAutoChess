@@ -64,7 +64,10 @@ public class UnityControllerCenter : MonoBehaviour
         GameObject simpleChess = (GameObject) Resources.Load(CommonDefine.kChessPrefabPath);
         GameObject instance = Instantiate(simpleChess);
         Transform transform =  instance.GetComponent<Transform>();
-        transform.position = new Vector3();
+        transform.position =
+            new Vector3(CommonDefine.kDatumPointX + CommonDefine.kChessBoardDistanceUnit * chess.location.x,
+                CommonDefine.kDatumPointY + CommonDefine.kChessBoardDistanceUnit * chess.location.y,
+                CommonDefine.kChessZAxisOffset);
         gameObjectDic[chess] = instance;
     }
 

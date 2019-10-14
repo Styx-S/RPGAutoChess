@@ -12,6 +12,13 @@ public class CommonDefine
 
     public const string kManagerMapName = "MapManager";         // MapManager键
     public const string kManagerChessName = "ChessManager";     // ChessManager键
+
+    public const float  kDatumPointX = 0.5f,            // 逻辑0位置X轴基准点
+                        kDatumPointY = 0.5f;            // 逻辑0位置Y轴我基准点
+    public const float  kChessBoardDistanceUnit = 1f;   // 棋盘单位长度
+    public const float  kChessZAxisOffset = 0f;         // 棋子Z轴坐标
+    public const float  kBoardZAxisOffset = 100f;       // 棋盘Z轴坐标
+    public const float  kCameraZAxisOffset = -100f;     // 摄像机Z轴坐标
 }
 
 /* 棋盘中的逻辑位置 */
