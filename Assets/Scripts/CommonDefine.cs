@@ -34,6 +34,7 @@ public class ChessLocation {
         return list;
     }
 
+    /* 获取a点到目标点可以移动的极限点 */
     public static List<ChessLocation> getLimit(ChessLocation a, ChessLocation target, int mobility) {
         List<ChessLocation> list = new List<ChessLocation>();
         int d = getDistance(a,target) - mobility;
