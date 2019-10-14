@@ -36,7 +36,9 @@ public class GenMapUI : MonoBehaviour {
         GameObject prefGrid = (GameObject)Resources.Load(CommonDefine.kMapGridPrefabPath);
 		for (int i = 0;i < m;i++) {
             for (int j = 0;j < n;j++) {
-                Vector3 position = new Vector3(i + 0.5f,j + 0.5f,100);
+                Vector3 position = new Vector3(CommonDefine.kDatumPointX + i * CommonDefine.kChessBoardDistanceUnit,
+                    CommonDefine.kDatumPointY + j * CommonDefine.kChessBoardDistanceUnit, 
+                    CommonDefine.kBoardZAxisOffset);
                 GameObject grid = Instantiate(prefGrid);
                 grid.transform.position = position;
                 grid.transform.parent = thisTransform;

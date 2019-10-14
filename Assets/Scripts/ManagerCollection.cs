@@ -8,14 +8,16 @@ public class ManagerCollection : MonoBehaviour
     List<ManagerInterface> managers = new List<ManagerInterface>();
 
     public ManagerCollection() {
-        this.addManager(new MapManager());
-        this.addManager(new ChessManager());
+        managers.Add(new MapManager());
+        managers.Add(new ChessManager());
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        foreach(ManagerInterface manager in managers) {
+            manager.init();
+        }
     }
 
     // Update is called once per frame
@@ -24,9 +26,10 @@ public class ManagerCollection : MonoBehaviour
         
     }
 
-    private void addManager(ManagerInterface manager) {
-        managers.Add(manager);
-        manager.init();
+    void FixedUpdate() {
+        foreach(ManagerInterface manager in managers) {
+            manager.update();
+        }
     }
 
     public ManagerInterface GetManager(string name) {
