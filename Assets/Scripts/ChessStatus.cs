@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
+
+public delegate void onDead();          // 棋子死亡时回调
+
 /*
     @description: 管理角色状态以及各种Buff效果
  */
@@ -15,6 +18,8 @@ public class ChessStatus
 
     private bool attachCooling; // 攻击冷却状态
     private bool moveCooling;   // 移动冷却状态
+
+    public onDead onDeadDelegate;
 
     public ChessStatus(float HP, float strength, int attachRadius, float attachCoolingDelay,
         int mobility, float moveCoolingDelay) {
@@ -57,6 +62,9 @@ public class ChessStatus
     public float damage(float value) {
         float causeDamage = value < this.HP ? value : this.HP;
         this.HP = this.HP - causeDamage;
+        if (this.HP <= 0 && onDeadDelegate != null) {
+            onDeadDelegate();
+        }
         return causeDamage;
     }
 
