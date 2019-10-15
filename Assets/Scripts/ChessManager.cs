@@ -84,7 +84,9 @@ public class ChessManager : ManagerInterface
         mChessMap[chess.location.x][chess.location.y] = null;
         chess.location = location;
         mChessMap[chess.location.x][chess.location.y] = chess;
-        foreach (ChessBase e in mDistanceMap[chess].Keys) {
+        ChessBase[] keys = new ChessBase[mDistanceMap[chess].Keys.Count];
+        mDistanceMap[chess].Keys.CopyTo(keys,0);
+        foreach (ChessBase e in keys) {
             int distance = getDistance(chess,e);
             mDistanceMap[chess][e] = distance;
             mDistanceMap[e][chess] = distance;
