@@ -54,4 +54,15 @@ public class ChessUI : MonoBehaviour
                 CommonDefine.kDatumPointY + CommonDefine.kChessBoardDistanceUnit * location.y,
                 CommonDefine.kChessZAxisOffset);
     }
+
+    public void initColor(Player player) {
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+        if (player.getName().Equals("A")) { //判断chess玩家与当前玩家是否一样，先写成这样
+            renderer.color = new Color(CommonDefine.kPlayerColor.r,
+                CommonDefine.kPlayerColor.g,CommonDefine.kPlayerColor.b,CommonDefine.kPlayerColor.a);
+        } else {
+            renderer.color = new Color(CommonDefine.kEnemyColor.r,
+                CommonDefine.kEnemyColor.g,CommonDefine.kEnemyColor.b,CommonDefine.kEnemyColor.a);
+        }
+    }
 }

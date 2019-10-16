@@ -66,6 +66,8 @@ public class UnityControllerCenter : MonoBehaviour
         Transform transform =  instance.GetComponent<Transform>();
         transform.position = ChessUI.calTransformPosition(chess.location);
         gameObjectDic[chess] = instance;
+        ChessUI ui = instance.GetComponent<ChessUI>();
+        ui.initColor(chess.owner);
     }
 
     private void removeChess(ChessBase chess) {

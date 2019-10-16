@@ -19,6 +19,21 @@ public class CommonDefine
     public const float  kChessZAxisOffset = 0f;         // 棋子Z轴坐标
     public const float  kBoardZAxisOffset = 100f;       // 棋盘Z轴坐标
     public const float  kCameraZAxisOffset = -100f;     // 摄像机Z轴坐标
+    // public static readonly RGBA kPlayerColor = new RGBA(0.8f,0.8f,1,1);
+    public class kPlayerColor {
+        public const float r = 0.8f;
+        public const float g = 0.8f;
+        public const float b = 1;
+        public const float a = 1;
+    }
+
+    public class kEnemyColor {
+        public const float r = 1;
+        public const float g = 0.8f;
+        public const float b = 0.8f;
+        public const float a = 1;
+    }
+    
 
     public enum fontSize {
         small = 1,
@@ -117,4 +132,5 @@ public class ChessLocation {
         }
         return list;
     }
+
 }
