@@ -53,6 +53,7 @@ public class TimerTools : MonoBehaviour
             if (insertPoint.nextNode.time >= newNode.time) {
                 break;
             }
+            insertPoint = insertPoint.nextNode;
         }
         if(insertPoint.nextNode != null) {
             newNode.nextNode = insertPoint.nextNode;
