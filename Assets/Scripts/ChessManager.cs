@@ -15,8 +15,12 @@ public class ChessManager : ManagerInterface
         loadChess();
     }
     void ManagerInterface.update() {
-        foreach(ChessBase chess in mChessList) {
-            chess.act();
+        ChessBase[] chesses = new ChessBase[mChessList.Count];
+        mChessList.CopyTo(chesses);
+        foreach(ChessBase chess in chesses) {
+            if (!chess.isDead) {
+                chess.act();
+            }
         }
     }
 
