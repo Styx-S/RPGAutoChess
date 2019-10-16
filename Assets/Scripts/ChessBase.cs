@@ -38,7 +38,7 @@ public class ChessBase
         if (ChessManager.getDistance(this, target) > status.getAttachRadius()) {
             // 处于攻击范围之外, 向它移动
             ChessLocation moveTo = chessManager.findActualTarget(this, status.getMobility(), target.location);
-            if (moveTo == this.location) {
+            if (moveTo == this.location || !status.canMove()) {
                 // 无法移动
                 return;
             } else {
