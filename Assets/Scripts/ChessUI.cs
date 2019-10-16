@@ -32,9 +32,11 @@ public class ChessUI : MonoBehaviour
                 break;
             case ChessAnimationType.Attach:
                 ChessAnimationAttachArgs attachArgs = (ChessAnimationAttachArgs) args;
+                showMessage("攻击",CommonDefine.fontSize.small);
                 break;
             case ChessAnimationType.Hurt:
                 ChessAnimationHurtArgs hurtArgs = (ChessAnimationHurtArgs) args;
+                showMessage("-" + hurtArgs.causeDamage,CommonDefine.fontSize.small);
                 break;
             default:
                 Debug.Log("无法支持的动效类型");
@@ -43,8 +45,8 @@ public class ChessUI : MonoBehaviour
     }
 
     /* 在棋子头上显示信息 */
-    private void showMessage(string message) {
-
+    private void showMessage(string message, CommonDefine.fontSize size) {
+        GetComponentInChildren<ChessCanvas>().displayText(message,size);
     }
 
     public static Vector3 calTransformPosition(ChessLocation location) {

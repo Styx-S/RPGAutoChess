@@ -19,6 +19,12 @@ public class CommonDefine
     public const float  kChessZAxisOffset = 0f;         // 棋子Z轴坐标
     public const float  kBoardZAxisOffset = 100f;       // 棋盘Z轴坐标
     public const float  kCameraZAxisOffset = -100f;     // 摄像机Z轴坐标
+
+    public enum fontSize {
+        small = 1,
+        mid = 2,
+        big = 3
+    }
 }
 
 /* 棋盘中的逻辑位置 */

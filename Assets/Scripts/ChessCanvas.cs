@@ -20,10 +20,12 @@ public class ChessCanvas : MonoBehaviour
         
     }
 
-    public void displayText(string text) {
+    public void displayText(string text, CommonDefine.fontSize size) {
         if (chessText != null) {
             GameObject hud = Instantiate(chessText, transform)as GameObject;
-            hud.GetComponent<Text>().text = text;
+            Text hudText = hud.GetComponent<Text>();
+            hudText.text = text;
+            hudText.fontSize = (int)size;
         }
     }
 }
