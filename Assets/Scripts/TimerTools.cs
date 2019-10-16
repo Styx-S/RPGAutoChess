@@ -28,6 +28,10 @@ public class TimerTools : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    void FixedUpdate() {
         float currentTime = Time.time;
         TimerNode node = head.nextNode;
         while(node != null) {
