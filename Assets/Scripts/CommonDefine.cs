@@ -12,6 +12,7 @@ public class CommonDefine
 
     public const string kManagerMapName = "MapManager";         // MapManager键
     public const string kManagerChessName = "ChessManager";     // ChessManager键
+    public const string kManagerRandomName = "RandomManager";     // RandomManager键
 
     public const float  kDatumPointX = 0.5f,            // 逻辑0位置X轴基准点
                         kDatumPointY = 0.5f;            // 逻辑0位置Y轴我基准点

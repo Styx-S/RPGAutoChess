@@ -8,8 +8,9 @@ public class ManagerCollection : MonoBehaviour
     List<ManagerInterface> managers = new List<ManagerInterface>();
 
     public ManagerCollection() {
+        managers.Add(new RandomManager());
         managers.Add(new MapManager());
-        managers.Add(new ChessManager());
+        managers.Add(new ChessManager());  
     }
 
     // Start is called before the first frame update

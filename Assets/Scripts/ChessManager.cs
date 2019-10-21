@@ -56,9 +56,9 @@ public class ChessManager : ManagerInterface
     }
 
     /* 为chess选择一个攻击target，target可以不在chess攻击范围内 */
-    public ChessBase selectTarget(ChessBase chess) {
+    public ChessBase selectTarget(ChessBase chess) { //改改
         int minLen = int.MaxValue;
-        ChessBase target = null;
+        List<ChessBase> targets = new List<ChessBase>();
         foreach (ChessBase e in mChessList) {
             if (e == chess) {
                 continue;
@@ -68,10 +68,16 @@ public class ChessManager : ManagerInterface
             }
             int len = mDistanceMap[chess][e];
             if (len < minLen) {
+                targets.Clear();
                 minLen = len;
-                target = e;
-            }
+                targets.Add(e);
+            } else if (len == minLen) {
+                targets.Add(e);
+            } 
         }
+        RandomManager rm = (RandomManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerRandomName);
+        System.Random r = new System.Random(rm.next());
+        ChessBase target = targets[r.Next(0,targets.Count)];
         return target;
     }
 
