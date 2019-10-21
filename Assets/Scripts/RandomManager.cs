@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RandomManager : ManagerInterface //硬编码部分之后改
 {
-    private Queue<int> randomQueue;
+    private Queue<int> randomQueue = new Queue<int>();
     string ManagerInterface.getName() {
         return CommonDefine.kManagerRandomName;
     }
