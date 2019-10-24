@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ChessManager : ManagerInterface
 {
@@ -77,7 +78,7 @@ public class ChessManager : ManagerInterface
         }
         RandomManager rm = (RandomManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerRandomName);
         System.Random r = new System.Random(rm.next());
-        ChessBase target = targets[r.Next(0,targets.Count)];
+        ChessBase target = targets[r.Next(0,targets.Count)]; // 打完会越界
         return target;
     }
 
@@ -161,32 +162,93 @@ public class ChessManager : ManagerInterface
 
     /* 棋子逼近目标位置 */
     public ChessLocation findActualTarget(ChessBase chess, int mobility, ChessLocation target) { // 写麻了，之后再优化
-        if (mobility <= 0) {
-            return chess.location;
-        }
-        List<ChessLocation> targets = new List<ChessLocation>();
-        if (mobility >= ChessLocation.getDistance(chess.location,target)) {
-            if (mChessMap[target.x][target.y] == null) {
-                return target;
-            } else {
-                List<ChessLocation> neighbor = ChessLocation.getNeighbor(target);
-                foreach (ChessLocation e in neighbor) {
-                    int distance = ChessLocation.getDistance(chess.location,e);
-                    if (mobility >= distance) {
-                        targets.Add(findActualTarget(chess,distance,e));
+        // if (mobility <= 0) {
+        //     return chess.location;
+        // }
+        // List<ChessLocation> targets = new List<ChessLocation>();
+        // if (mobility >= ChessLocation.getDistance(chess.location,target)) {
+        //     if (mChessMap[target.x][target.y] == null) {
+        //         return target;
+        //     } else {
+        //         List<ChessLocation> neighbor = ChessLocation.getNeighbor(target);
+        //         foreach (ChessLocation e in neighbor) {
+        //             int distance = ChessLocation.getDistance(chess.location,e);
+        //             if (mobility >= distance) {
+        //                 targets.Add(findActualTarget(chess,distance,e));
+        //             }
+        //         }
+        //     }
+        // } else {
+        //     List<ChessLocation> limit = ChessLocation.getLimit(chess.location,target,mobility);
+        //     foreach (ChessLocation e in limit) {
+        //         targets.Add(findActualTarget(chess,mobility,e));
+        //     }
+        // }
+        // if (targets.Count > 0) {
+        //     return targets[0];
+        // } else {
+        //     return chess.location;
+        // }
+
+        HashSet<ChessLocation> targets = new HashSet<ChessLocation>();
+        HashSet<ChessLocation> barrier = new HashSet<ChessLocation>();
+        HashSet<ChessLocation> travers = new HashSet<ChessLocation>();
+        HashSet<ChessLocation> temp = new HashSet<ChessLocation>();
+        int xMax = mChessMap.Length;
+        int yMax = mChessMap[0].Length;
+        barrier.Add(target);
+        while (targets.Count == 0) {
+            foreach (ChessLocation b in barrier) {
+                List<ChessLocation> neighbor = ChessLocation.getNeighbor(b);
+                foreach (ChessLocation n in neighbor) {
+                    if ((n.x >= xMax) || (n.y >= yMax) || (n.x < 0) || (n.y < 0)) {
+                        continue;
+                    }
+                    if (mChessMap[n.x][n.y] == null) {
+                        targets.Add(n);
+                    } else if (!travers.Contains(n)) {
+                        travers.Add(n);
+                        temp.Add(n);
                     }
                 }
             }
-        } else {
-            List<ChessLocation> limit = ChessLocation.getLimit(chess.location,target,mobility);
-            foreach (ChessLocation e in limit) {
-                targets.Add(findActualTarget(chess,mobility,e));
+            barrier.Clear();
+            foreach (ChessLocation t in temp) {
+                barrier.Add(t);
+            }
+            temp.Clear();
+        }
+        RandomManager rm = (RandomManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerRandomName);
+        System.Random r;
+        foreach (ChessLocation t in targets) {
+            if (mobility >= ChessLocation.getDistance(chess.location,t)) {
+                temp.Add(t);
             }
         }
-        if (targets.Count > 0) {
-            return targets[0];
+        if (temp.Count != 0) {
+            ChessLocation[] tempTargets = new ChessLocation[temp.Count];
+            temp.CopyTo(tempTargets);
+            r = new System.Random(rm.next());
+            return tempTargets[r.Next(0,tempTargets.Length)];
+        }
+        ChessLocation[] locTargets = new ChessLocation[targets.Count];
+        targets.CopyTo(locTargets);
+        r = new System.Random(rm.next());
+        ChessLocation locTarget = locTargets[r.Next(0,locTargets.Length)];
+        List<ChessLocation> limit = ChessLocation.getLimit(chess.location,target,mobility);
+        List<ChessLocation> trueLimit = new List<ChessLocation>();
+        foreach (ChessLocation e in limit) {
+            if (mChessMap[e.x][e.y] == null) {
+                trueLimit.Add(e);
+            }
+        }
+        if (trueLimit.Count == 0) {
+            return chess.location; //这里还有问题，麻了，之后改
         } else {
-            return chess.location;
+            r = new System.Random(rm.next());
+            ChessLocation t = trueLimit[r.Next(0,trueLimit.Count)];
+            Debug.Log("x = " + t.x + ",y = " + t.y);
+            return t;
         }
     }
 }
