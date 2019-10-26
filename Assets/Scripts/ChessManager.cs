@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ChessManager : ManagerInterface
 {
@@ -235,7 +234,7 @@ public class ChessManager : ManagerInterface
         targets.CopyTo(locTargets);
         r = new System.Random(rm.next());
         ChessLocation locTarget = locTargets[r.Next(0,locTargets.Length)];
-        List<ChessLocation> limit = ChessLocation.getLimit(chess.location,target,mobility);
+        List<ChessLocation> limit = ChessLocation.getLimit(chess.location,locTarget,mobility);
         List<ChessLocation> trueLimit = new List<ChessLocation>();
         foreach (ChessLocation e in limit) {
             if (mChessMap[e.x][e.y] == null) {
@@ -243,11 +242,10 @@ public class ChessManager : ManagerInterface
             }
         }
         if (trueLimit.Count == 0) {
-            return chess.location; //这里还有问题，麻了，之后改
+            return chess.location; 
         } else {
             r = new System.Random(rm.next());
             ChessLocation t = trueLimit[r.Next(0,trueLimit.Count)];
-            Debug.Log("x = " + t.x + ",y = " + t.y);
             return t;
         }
     }
