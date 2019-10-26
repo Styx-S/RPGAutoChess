@@ -75,10 +75,15 @@ public class ChessManager : ManagerInterface
                 targets.Add(e);
             } 
         }
-        RandomManager rm = (RandomManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerRandomName);
-        System.Random r = new System.Random(rm.next());
-        ChessBase target = targets[r.Next(0,targets.Count)]; // 打完会越界
-        return target;
+        if (targets.Count != 0) {
+            RandomManager rm = (RandomManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerRandomName);
+            System.Random r = new System.Random(rm.next());
+            ChessBase target = targets[r.Next(0,targets.Count)];
+            return target;
+        } else {
+            return null;
+        }
+        
     }
 
     /* 获取chess的位置 */
