@@ -32,7 +32,7 @@ public class ChessAnimationMoveArgs : ChessAnimationArgs {
         this.to = to;
     }
 
-    public static ChessAnimationMoveArgs transfrom(ControllerMessage_chessMove message) {
+    public static ChessAnimationMoveArgs transFrom(ChessIncrementMessage_chessMove message) {
         return new ChessAnimationMoveArgs(message.from, message.to);
     }
 }

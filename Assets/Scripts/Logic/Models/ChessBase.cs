@@ -65,7 +65,7 @@ public class ChessBase
     public float underAttach(ChessBase attacher, float damage) {
         float casueDamage = this.status.damage(damage);
         // 通知控制器
-        UnityControllerCenter.getCenter().sendMessage(new ControllerMessage_chessAttach(attacher, this, casueDamage));
+        UnityControllerCenter.getCenter().sendMessage(new ChessIncrementMessage_chessAttach(attacher, this, casueDamage));
         return casueDamage;
     }
 

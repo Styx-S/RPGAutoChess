@@ -94,7 +94,7 @@ public class ChessManager : ManagerInterface
     /* 移动棋子 */
     public void moveChess(ChessBase chess, ChessLocation location) {
         // 通知控制器移动棋子
-        UnityControllerCenter.getCenter().sendMessage(new ControllerMessage_chessMove(chess, chess.location, location));
+        UnityControllerCenter.getCenter().sendMessage(new ChessIncrementMessage_chessMove(chess, chess.location, location));
 
         mChessMap[chess.location.x][chess.location.y] = null;
         chess.location = location;
@@ -116,7 +116,7 @@ public class ChessManager : ManagerInterface
     /* 移除棋子 */
     public void removeChess(ChessBase chess) {
         // 通知控制器销毁GameObject
-        UnityControllerCenter.getCenter().sendMessage(new ControllerMessage_chessRemove(chess));
+        UnityControllerCenter.getCenter().sendMessage(new ChessIncrementMessage_chessRemove(chess));
 
         mChessList.Remove(chess);
         mChessMap[chess.location.x][chess.location.y] = null;
@@ -132,7 +132,7 @@ public class ChessManager : ManagerInterface
         chess.notifyLocation(this, location);
 
         // 通知控制器生成棋子
-        UnityControllerCenter.getCenter().sendMessage(new ControllerMessage_chessCreate(chess));
+        UnityControllerCenter.getCenter().sendMessage(new ChessIncrementMessage_chessCreate(chess));
         
         mChessList.Add(chess);
         mChessMap[chess.location.x][chess.location.y] = chess;
