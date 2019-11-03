@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ public interface IUnityControllerCenterModule {
 
 public class UnityControllerCenter : MonoBehaviour
 {
-    private Queue<MessageBase> messageQueue = new Queue<MessageBase>();
+    private ConcurrentQueue<MessageBase> messageQueue = new ConcurrentQueue<MessageBase>();
     private List<IUnityControllerCenterModule> modules = new List<IUnityControllerCenterModule>();
 
     void Awake() {
@@ -45,22 +45,23 @@ public class UnityControllerCenter : MonoBehaviour
     }
 
     private void dispose() {
-        while(messageQueue.Count != 0) {
-            MessageBase message = messageQueue.Dequeue();
-            bool isHandled = false;
-            foreach(IUnityControllerCenterModule module in modules) {
-                if (module.tryHandleMessage(message)) {
-                    // 成功处理，退出循环
-                    isHandled = true;
-                    break;
+        while(messageQueue.Count > 0) {
+            MessageBase message;
+            if(messageQueue.TryDequeue(out message)) {
+                bool canHandleFlag = false;
+                foreach(IUnityControllerCenterModule module in modules) {
+                    if (module.tryHandleMessage(message)) {
+                        // 成功处理，退出循环
+                        canHandleFlag = true;
+                        break;
+                    }
+                    // 寻找下一个能处理的模块
+                    continue;
                 }
-                // 寻找下一个能处理的模块
-                continue;
-            }
-            if (!isHandled) {
-                Debug.Log("一个不支持的消息被丢弃");
-            }
-            
+                if (!canHandleFlag) {
+                    Debug.Log("一个不支持的消息被丢弃");
+                }
+            }            
 
         }
     }

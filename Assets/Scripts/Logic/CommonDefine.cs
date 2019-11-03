@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class CommonDefine
 {
@@ -13,6 +14,7 @@ public class CommonDefine
     public const string kManagerMapName = "MapManager";         // MapManager键
     public const string kManagerChessName = "ChessManager";     // ChessManager键
     public const string kManagerRandomName = "RandomManager";     // RandomManager键
+    public const string kManagerIOName = "IOManager";       // IOManager键
 
     public const float  kDatumPointX = 0.5f,            // 逻辑0位置X轴基准点
                         kDatumPointY = 0.5f;            // 逻辑0位置Y轴我基准点
@@ -21,6 +23,10 @@ public class CommonDefine
     public const float  kBoardZAxisOffset = 100f;       // 棋盘Z轴坐标
     public const float  kCameraZAxisOffset = -100f;     // 摄像机Z轴坐标
     // public static readonly RGBA kPlayerColor = new RGBA(0.8f,0.8f,1,1);
+    public const int kDefaultPort = 53216;      // 默认端口
+
+    public const int kLogicUpdateFPS = 30;
+
     public class kPlayerColor {
         public const float r = 0.8f;
         public const float g = 0.8f;
@@ -44,6 +50,7 @@ public class CommonDefine
 }
 
 /* 棋盘中的逻辑位置 */
+[Serializable]
 public class ChessLocation {
     public int x {get; set;}
     public int y {get; set;}

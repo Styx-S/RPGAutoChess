@@ -93,8 +93,9 @@ public class ChessManager : ManagerInterface
 
     /* 移动棋子 */
     public void moveChess(ChessBase chess, ChessLocation location) {
-        // 通知控制器移动棋子
-        UnityControllerCenter.getCenter().sendMessage(new ChessIncrementMessage_chessMove(chess, chess.location, location));
+        // 通知IOManager棋子移动消息
+        ((IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName))
+            .sendMessage(new ChessIncrementMessage_chessMove(chess, chess.location, location));
 
         mChessMap[chess.location.x][chess.location.y] = null;
         chess.location = location;
@@ -108,6 +109,11 @@ public class ChessManager : ManagerInterface
         }
     }
 
+    public ChessBase[] getChessList() {
+        // TODO：这里对于ChessBase没有拷贝,考虑对于ChessBase到时候会进行序列化/反序列化，后续无需解决这个问题
+        return mChessList.ToArray();
+    }
+
     /* 棋子与目标棋子交互（攻击，技能等） */
     public void actChess(ChessBase chess, ChessBase target ,int opID) {
         // TODO: 棋子与目标棋子交互内容
@@ -115,8 +121,9 @@ public class ChessManager : ManagerInterface
 
     /* 移除棋子 */
     public void removeChess(ChessBase chess) {
-        // 通知控制器销毁GameObject
-        UnityControllerCenter.getCenter().sendMessage(new ChessIncrementMessage_chessRemove(chess));
+        // 通知IOManager棋子移除消息
+        ((IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName))
+            .sendMessage(new ChessIncrementMessage_chessRemove(chess));
 
         mChessList.Remove(chess);
         mChessMap[chess.location.x][chess.location.y] = null;
@@ -131,8 +138,9 @@ public class ChessManager : ManagerInterface
         // 由ChessManager来通知Chess的新位置
         chess.notifyLocation(this, location);
 
-        // 通知控制器生成棋子
-        UnityControllerCenter.getCenter().sendMessage(new ChessIncrementMessage_chessCreate(chess));
+        // 通知IOManager棋子生成消息
+        ((IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName))
+            .sendMessage(new ChessIncrementMessage_chessCreate(chess));
         
         mChessList.Add(chess);
         mChessMap[chess.location.x][chess.location.y] = chess;

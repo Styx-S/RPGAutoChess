@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
 class TimerNode {
     public float time;
@@ -16,23 +14,21 @@ class TimerNode {
 
 public delegate void TimerAction(); //时间到时执行动作
 
-public class TimerTools : MonoBehaviour
+public class TimerTools : ManagerInterface
 {
     private TimerNode head = new TimerNode(0, null);    // 队列头
-    // Start is called before the first frame update
-    void Start()
-    {
+    private static string name = "TimerTools";
+
+    string ManagerInterface.getName() {
+        return name;
+    }
+
+    void ManagerInterface.init() {
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    void FixedUpdate() {
-        float currentTime = Time.time;
+    void ManagerInterface.update() {
+        float currentTime = time();
         TimerNode node = head.nextNode;
         while(node != null) {
             if (node.time > currentTime) {
@@ -50,7 +46,7 @@ public class TimerTools : MonoBehaviour
         action: 到时间调用的方法
      */
     public void setTimer(float interval, TimerAction action) {
-        float currentTime = Time.time;
+        float currentTime = time();
         TimerNode newNode = new TimerNode(currentTime + interval, action);
         TimerNode insertPoint = head;
         while(insertPoint.nextNode != null) {
@@ -66,11 +62,12 @@ public class TimerTools : MonoBehaviour
     }
 
     public static TimerTools getTimerTools() {
-        TimerTools tools = GameObject.FindGameObjectWithTag(CommonDefine.kControllerName).GetComponent<TimerTools>();
-        if (tools == null) {
-            GameObject.FindGameObjectWithTag(CommonDefine.kControllerName).AddComponent<TimerTools>();
-            return  GameObject.FindGameObjectWithTag(CommonDefine.kControllerName).GetComponent<TimerTools>();
-        }
-        return tools;
+        TimerTools timerTools = (TimerTools)ManagerCollection.getCollection().GetManager(name);
+        return timerTools;
+    }
+
+    private float time() {
+        long ms = DateTime.Now.ToUniversalTime().Ticks / 1000;
+        return ((float)ms) / 1000;
     }
 }

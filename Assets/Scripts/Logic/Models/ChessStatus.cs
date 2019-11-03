@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿using System;
 
 public delegate void onDead();          // 棋子死亡时回调
 
 /*
     @description: 管理角色状态以及各种Buff效果
  */
+ [Serializable]
 public class ChessStatus
 {
     private float HP;                   // 血量

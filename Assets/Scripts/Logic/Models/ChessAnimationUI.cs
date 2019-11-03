@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 
+[Serializable]
 public enum ChessAnimationType {
     Move,       // 棋子移动
     Attach,     // 棋子攻击

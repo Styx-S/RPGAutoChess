@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 
+[Serializable]
 public class ChessBase
 {
     private ChessStatus status;         // 棋子状态
     public Player owner {               // 棋子所属玩家
         get; set;
     }
+    [NonSerialized]
     private ChessManager chessManager;  // 当前托管的Manager   
     public ChessLocation location {     // 棋子当前位置
         get; set;
@@ -64,8 +65,9 @@ public class ChessBase
          */
     public float underAttach(ChessBase attacher, float damage) {
         float casueDamage = this.status.damage(damage);
-        // 通知控制器
-        UnityControllerCenter.getCenter().sendMessage(new ChessIncrementMessage_chessAttach(attacher, this, casueDamage));
+        // TODO: 暂时在这里发出攻击事件，后续应该会写一个事件处理系统
+        ((IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName))
+            .sendMessage(new ChessIncrementMessage_chessAttach(attacher, this, casueDamage));
         return casueDamage;
     }
 

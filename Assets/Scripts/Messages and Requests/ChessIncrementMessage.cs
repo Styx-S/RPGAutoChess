@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public enum ChessIncrementMessageType {
     chessCreate,        // 棋子创建
@@ -8,6 +9,7 @@ public enum ChessIncrementMessageType {
     chessAttach,        // 棋子攻击
 }
 
+[Serializable]
 public class ChessIncrementMessage : MessageBase {
     public ChessIncrementMessage(ChessIncrementMessageType type)
         : base(MessageInfoType.Chess, MessageInfoKindType.Increment, (int)type) {
@@ -15,6 +17,7 @@ public class ChessIncrementMessage : MessageBase {
     }
 }
 
+[Serializable]
 public class ChessIncrementMessage_chessCreate : ChessIncrementMessage {
     public ChessBase chess {
         get; set;
@@ -25,6 +28,7 @@ public class ChessIncrementMessage_chessCreate : ChessIncrementMessage {
     }
 }
 
+[Serializable]
 public class ChessIncrementMessage_chessRemove : ChessIncrementMessage {
     public ChessBase chess {
         get; set;
@@ -35,6 +39,7 @@ public class ChessIncrementMessage_chessRemove : ChessIncrementMessage {
     }
 }
 
+[Serializable]
 public class ChessIncrementMessage_chessMove : ChessIncrementMessage {
     public ChessBase chess {
         get; set;
@@ -55,6 +60,7 @@ public class ChessIncrementMessage_chessMove : ChessIncrementMessage {
     }
 }
 
+[Serializable]
 public class ChessIncrementMessage_chessAttach : ChessIncrementMessage {
     public ChessBase attacher {
         get; set;

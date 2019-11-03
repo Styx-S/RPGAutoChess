@@ -12,7 +12,13 @@ public class CenterModule_Chess : IUnityControllerCenterModule
         }
         
         if (message.kindType == MessageInfoKindType.Completion) {
-
+            ChessCompletionMessage completionMessage = (ChessCompletionMessage)message;
+            // 棋子全量信息处理：创建每个棋子对应的GameObject/脚本
+            if (completionMessage.chessNum > 0) {
+                foreach(ChessBase chess in completionMessage.data) {
+                    createChess(chess);
+                }
+            }
         } else if (message.kindType == MessageInfoKindType.Increment) {
             switch((ChessIncrementMessageType)message.messageId) {
             case ChessIncrementMessageType.chessCreate:

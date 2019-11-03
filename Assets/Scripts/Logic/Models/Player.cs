@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 
+[Serializable]
 public class Player
 {
     private string uid;     // 用户唯一标识符

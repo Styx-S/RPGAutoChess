@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public enum MessageInfoType {
     BattleMapGrid,      // 战斗棋盘
@@ -11,10 +12,15 @@ public enum MessageInfoKindType {
     Increment,      // 增量（变化通告）信息
 }
 
+[Serializable]
 public class MessageBase {
     public MessageInfoType type;
     public MessageInfoKindType kindType;
     public int messageId;   // 用于在某种类型的消息中继续表示区别
+
+    public MessageBase() {
+
+    }
 
     public MessageBase(MessageInfoType type, MessageInfoKindType kindType, int messageId) {
         this.type = type;
