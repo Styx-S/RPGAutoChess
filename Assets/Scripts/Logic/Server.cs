@@ -30,49 +30,28 @@ public class Server {
         float predictT = standardT;
         // 实际执行时间
         float currentT;
-        // 累计误差时间
-        float deltaT = 0f;
-        int flagCount = 0;
         Stopwatch watcher = new Stopwatch();
         while(!stopServer) {
+            watcher.Reset();
             watcher.Start();
             ManagerCollection.getCollection().update();
             watcher.Stop();
 
             currentT = watcher.ElapsedMilliseconds;
-            deltaT += standardT - currentT;
             // 预测时间更新公式： 预测结果 与 实际结果的加权和 （削抖）
             predictT = currentT * 0.5f + predictT * 0.5f;
-            if (deltaT > 0) {
-                float sleepT;
-                if (predictT < standardT) {
-                    sleepT = 0.7f * deltaT;
-                } else {
-                    // 当前存在正误差，但预测接下来执行时间将会上升
-                    if (deltaT * 2 < predictT - standardT) {
-                        // 误差时间过小，期待通过超长执行时间来补全
-                        sleepT = 0.0f;
-                    } else if (deltaT < predictT - standardT) {
-                        // 尽管下帧可能运行时间较长，但是需要减小一定误差
-                        sleepT = (predictT - standardT - deltaT) / 2;
+            if(currentT < standardT) {
+                if (currentT + predictT < 2 * standardT) {
+                    if (currentT < predictT) {
+                        // 每帧执行时间增长趋势
+                        Thread.Sleep((int) (2 * standardT - currentT - predictT)/2);
                     } else {
-                        // 误差时间过大
-                        sleepT = deltaT / 2;
+                        // 每帧执行时间下降趋势
+                        Thread.Sleep((int) (standardT - currentT));
                     }
                 }
-                if (flagCount > 0) {
-                    flagCount--;
-                }
-                deltaT -= (int)sleepT;
-                Thread.Sleep((int)sleepT);
             } else {
-                // 误差为负，说明当前fps低于设定值
-                flagCount++;
-                if (flagCount > 10) {
-                    // 清空当前记录，防止因为某段时间的抖动影响后续计算
-                    deltaT = 0f;
-                    predictT = standardT;
-                }
+                // 当前帧执行时间超出标准，不睡眠
             }
         }
     }

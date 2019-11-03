@@ -1,11 +1,11 @@
 ﻿using System;
 
 class TimerNode {
-    public float time;
+    public double time;
     public TimerAction action;
     public TimerNode nextNode;
 
-    public TimerNode(float time, TimerAction action) {
+    public TimerNode(double time, TimerAction action) {
         this.time = time;
         this.action = action;
         this.nextNode = null;
@@ -28,7 +28,7 @@ public class TimerTools : ManagerInterface
     }
 
     void ManagerInterface.update() {
-        float currentTime = time();
+        double currentTime = time();
         TimerNode node = head.nextNode;
         while(node != null) {
             if (node.time > currentTime) {
@@ -46,7 +46,7 @@ public class TimerTools : ManagerInterface
         action: 到时间调用的方法
      */
     public void setTimer(float interval, TimerAction action) {
-        float currentTime = time();
+        double currentTime = time();
         TimerNode newNode = new TimerNode(currentTime + interval, action);
         TimerNode insertPoint = head;
         while(insertPoint.nextNode != null) {
@@ -66,8 +66,8 @@ public class TimerTools : ManagerInterface
         return timerTools;
     }
 
-    private float time() {
-        long ms = DateTime.Now.ToUniversalTime().Ticks / 1000;
-        return ((float)ms) / 1000;
+    private double time() {
+        long ms = DateTime.Now.ToUniversalTime().Ticks / 10000;
+        return ((double)ms) / 1000;
     }
 }
