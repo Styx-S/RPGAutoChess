@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CenterModule_Chess : IUnityControllerCenterModule
 {
+    private bool hasInit = false;   // 在收到全量信息后才处理增量信息
     private Dictionary<ChessBase, GameObject> gameObjectDic = new Dictionary<ChessBase, GameObject>();
 
     bool IUnityControllerCenterModule.tryHandleMessage(MessageBase message) {
@@ -13,6 +14,7 @@ public class CenterModule_Chess : IUnityControllerCenterModule
         }
         
         if (message.kindType == MessageInfoKindType.Completion) {
+            hasInit = true;
             ChessCompletionMessage completionMessage = (ChessCompletionMessage)message;
             // 棋子全量信息处理：创建每个棋子对应的GameObject/脚本
             if (completionMessage.chessNum > 0) {
@@ -20,7 +22,7 @@ public class CenterModule_Chess : IUnityControllerCenterModule
                     createChess(chess);
                 }
             }
-        } else if (message.kindType == MessageInfoKindType.Increment) {
+        } else if (message.kindType == MessageInfoKindType.Increment && hasInit) {
             switch((ChessIncrementMessageType)message.messageId) {
             case ChessIncrementMessageType.chessCreate:
                 ChessIncrementMessage_chessCreate create = (ChessIncrementMessage_chessCreate)message;
