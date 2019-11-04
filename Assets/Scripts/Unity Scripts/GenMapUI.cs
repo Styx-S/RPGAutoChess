@@ -11,7 +11,7 @@ public class GenMapUI : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        genMap();
+
     }
 
     // Update is called once per frame
@@ -20,12 +20,7 @@ public class GenMapUI : MonoBehaviour {
     }
 
     /* 界面生成地图 */
-    public void genMap() {
-        MapManager map =(MapManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerMapName);
-        if (map == null) {
-            return;
-        }
-        MapGrid[][] grids = map.mapGrids;
+    public void genMap(MapGrid[][] grids) {
         int m = grids.Length;
         int n;
         if (m > 0) {

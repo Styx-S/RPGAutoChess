@@ -20,6 +20,7 @@ public class Client {
 
             // TODO: 下面为测试代码
             SerializeTools.serializeObjectToSocket(socket, new NetRequest(new RequestBase(RequestTarget.ChessManager, 0)));
+            SerializeTools.serializeObjectToSocket(socket, new NetRequest(new RequestBase(RequestTarget.MapManager, 0)));
         }
         catch(Exception e) {
             Console.WriteLine("Fail to connect: " + e);

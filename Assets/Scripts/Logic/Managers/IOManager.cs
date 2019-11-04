@@ -71,6 +71,16 @@ public class IOManager : ManagerInterface {
             ChessCompletionMessage message = new ChessCompletionMessage(chessList.Length, chessManager.getChessList());
             sendMessage(new NetMessage(request.user, message));
             break;
+        case RequestTarget.MapManager:
+            MapManager mapManager = 
+                (MapManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerMapName);
+            if (mapManager == null) {
+                return;
+            }
+            MapGrid[][] mapGridList = mapManager.mapGrids;
+            MapCompletionMessage mapCompletionMessage = new MapCompletionMessage(mapGridList.Length, mapGridList);
+            sendMessage(new NetMessage(request.user, mapCompletionMessage));
+            break;
         default:
             break;
         }

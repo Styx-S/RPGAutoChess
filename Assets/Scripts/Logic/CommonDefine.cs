@@ -4,7 +4,9 @@ using System;
 
 public class CommonDefine
 {
-    public const string kControllerName = "GameController";         // Controller GameObject
+    public const string kControllerNameTag = "GameController";         // Controller GameObject
+    public const string kMainCameraNameTag = "MainCamera";              // Camera tag
+    public const string kMapUINameTag = "MapUI";                        // MapUI tag
     public const string kMapGridObjectName = "MapGridObject";       // 生成的Map块名字
     public const string kMapGridSpritePath = "Textures/MapGrid";    // Map块素材载入路径
     public const string kChessPrefabPath = "Prefab/DemoChess";   // chess素材载入路径

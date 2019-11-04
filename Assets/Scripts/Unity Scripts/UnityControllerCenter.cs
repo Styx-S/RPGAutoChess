@@ -14,6 +14,7 @@ public class UnityControllerCenter : MonoBehaviour
 
     void Awake() {
         modules.Add(new CenterModule_Chess());
+        modules.Add(new UnityControllerCenterModule_Map());
     }
 
     // Start is called before the first frame update
@@ -29,12 +30,12 @@ public class UnityControllerCenter : MonoBehaviour
     }
 
     public static UnityControllerCenter getCenter() {
-        UnityControllerCenter center = GameObject.FindGameObjectWithTag(CommonDefine.kControllerName)
+        UnityControllerCenter center = GameObject.FindGameObjectWithTag(CommonDefine.kControllerNameTag)
             .GetComponent<UnityControllerCenter>();
         if (center == null) {
-            GameObject.FindGameObjectWithTag(CommonDefine.kControllerName)
+            GameObject.FindGameObjectWithTag(CommonDefine.kControllerNameTag)
                 .AddComponent<UnityControllerCenter>();
-            return  GameObject.FindGameObjectWithTag(CommonDefine.kControllerName)
+            return  GameObject.FindGameObjectWithTag(CommonDefine.kControllerNameTag)
                 .GetComponent<UnityControllerCenter>();
         }
         return center;

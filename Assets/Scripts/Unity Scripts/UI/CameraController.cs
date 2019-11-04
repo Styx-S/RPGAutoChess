@@ -6,14 +6,12 @@ public class CameraController : MonoBehaviour
 {
     Transform thisTransform = null;
 
-    private const string kControllerName = "GameController";
-
     void Awake() {
         thisTransform = GetComponent<Transform>();
     }
     // Start is called before the first frame update
     void Start() {
-        initCamera();
+
     }
 
     // Update is called once per frame
@@ -21,13 +19,7 @@ public class CameraController : MonoBehaviour
         
     }
 
-    public void initCamera() {
-        MapManager map = (MapManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerMapName);
-        if (map == null) {
-            Debug.Log("null MapManager");
-            return;
-        }
-        MapGrid[][] grids = map.mapGrids;
+    public void calCameraPosition(MapGrid[][] grids) {
         int m = grids.Length;
         int n;
         if (m > 0) {
