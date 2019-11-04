@@ -14,7 +14,7 @@ public class Server {
     private int idSeed = 0; // 用于区分不同的客户端
 
     public Server() {
-        ((IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName)).registerConsumeDelegate(dispatchMessage);
+        ((IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName)).registerConsumeDelegate(dispatchMessageWorker);
         ManagerCollection.getCollection().init();
     }
 
@@ -59,12 +59,23 @@ public class Server {
         }
     }
 
+    private void dispatchMessageWorker(int count) {
+        // Thread t = new Thread(dispatchMessage);
+        // t.Start(count);
+        dispatchMessage(count);
+    }
+
     /* 将消息发送给对应客户端 */
-    private void dispatchMessage(int count) {
+    private void dispatchMessage(object obj) {
+        int count = (int) obj;
         ICollection<Socket> sockets = socketDic.Values;
         IOManager io = (IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName);
         for (int i = 0; i < count; i++) {
             NetMessage serverMessage = io.consumeOneMessage();
+            //DebugLogger.log("dequeue: "+serverMessage);
+            if (serverMessage == null) {
+                continue;
+            }
             if (serverMessage.sendTo == null) {
                 foreach (Socket socket in sockets) {
                     SerializeTools.serializeObjectToSocket(socket, serverMessage);
@@ -100,10 +111,7 @@ public class Server {
         Socket socket = (Socket) socketObj;
         while(!userSocketDic.TryGetValue(socket, out identifier));
         while(true) {
-            Byte[] buffer = new byte[1024 * 1024];
-            int length = socket.Receive(buffer);
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            NetRequest request = binaryFormatter.Deserialize(new MemoryStream(buffer)) as NetRequest;
+            NetRequest request = SerializeTools.deserializeObjectFromSocket(socket) as NetRequest;
             request.requestBody.user = identifier;
             IO.sendRequest(request.requestBody);
         }

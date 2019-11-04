@@ -35,15 +35,12 @@ public class Client {
     private void handleReceive() {
         try {
             while(true) {
-                Byte[] buffer = new byte[1024 * 1024];
-                int length = socket.Receive(buffer);
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
-                NetMessage message = binaryFormatter.Deserialize(new MemoryStream(buffer)) as NetMessage;
+                NetMessage message = SerializeTools.deserializeObjectFromSocket(socket) as NetMessage;
                 centerRef.sendMessage(message.messageBody);
             }
         }
         catch (Exception e) {
-            Console.Write("Fail to handle receive: "+e);
+            DebugLogger.log("Fail to handle receive: "+e);
         }
     }
 

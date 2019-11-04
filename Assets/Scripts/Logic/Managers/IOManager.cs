@@ -29,12 +29,13 @@ public class IOManager : ManagerInterface {
 
     public void sendMessage(MessageBase message) {
         if (message != null) {
-            notificationMessages.Enqueue(new NetMessage(null, message));
+            sendMessage(new NetMessage(null, message));
         }
     }
 
     public void sendMessage(NetMessage message) {
         if (message != null) {
+            // DebugLogger.log("enqueue: "+message.ToString());
             notificationMessages.Enqueue(message);
         }
     }
@@ -46,13 +47,9 @@ public class IOManager : ManagerInterface {
     }
 
     public NetMessage consumeOneMessage() {
-        if (notificationMessages.Count != 0) {
-            NetMessage message;
-            if (notificationMessages.TryDequeue(out message)) {
-                return message;
-            }
-        }
-        return null;
+        NetMessage message;
+        notificationMessages.TryDequeue(out message);
+        return message;
     }
 
     public void sendRequest(RequestBase request) {
@@ -60,6 +57,9 @@ public class IOManager : ManagerInterface {
     }
 
     public void handleRequest(RequestBase request) {
+        if (request == null) {
+            return;
+        }
         switch(request.target) {
         case RequestTarget.ChessManager:
             ChessManager chessManager = 

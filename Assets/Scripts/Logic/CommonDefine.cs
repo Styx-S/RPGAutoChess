@@ -62,6 +62,10 @@ public class ChessLocation {
         this.y = y;
     }
 
+    public override string ToString() {
+        return "("+x + ", " +y+ ")";
+    }
+
     public static int getDistance(ChessLocation a, ChessLocation b) {
         return System.Math.Abs(a.x - b.x) + System.Math.Abs(a.y - b.y);
     }

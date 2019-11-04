@@ -15,7 +15,7 @@ public class ChessBase
     public bool isDead;             // 棋子是否死亡
 
     private static int nextChessID = 0;
-    private int chessID = nextChessID++;
+    public int chessID = nextChessID++;
 
     public ChessBase(Player owner, float HP = 100, float strength = 5, int attachRadius = 1, float attachCoolingDelay = 1.0f,
         int mobility = 1, float moveCoolingDelay = 1.0f) {

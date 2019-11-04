@@ -11,4 +11,8 @@ public class NetMessage{
         this.sendTo = sendTo;
         this.messageBody = message;
     }
+
+    public override string ToString() {
+        return "[sendTo:" + "]" + messageBody.ToString();
+    }
 }

@@ -58,6 +58,10 @@ public class ChessIncrementMessage_chessMove : ChessIncrementMessage {
         this.from = from;
         this.to = to;
     }
+
+    public override string ToString() {
+        return chess.chessID + ": " + from + "to " + to;
+    }
 }
 
 [Serializable]
@@ -78,5 +82,9 @@ public class ChessIncrementMessage_chessAttach : ChessIncrementMessage {
         this.attacher = attacher;
         this.victim = victim;
         this.causeDamage = causeDamage;
+    }
+
+    public override string ToString() {
+        return attacher.chessID + " attack " + victim.chessID;
     }
 }
