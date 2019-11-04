@@ -7,6 +7,7 @@ public class CenterModule_Chess : IUnityControllerCenterModule
     private Dictionary<ChessBase, GameObject> gameObjectDic = new Dictionary<ChessBase, GameObject>();
 
     bool IUnityControllerCenterModule.tryHandleMessage(MessageBase message) {
+
         if (message.type != MessageInfoType.Chess) {
             return false;
         }

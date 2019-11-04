@@ -33,7 +33,7 @@ public class IOManager : ManagerInterface {
         }
     }
 
-    public void sendServerMessage(NetMessage message) {
+    public void sendMessage(NetMessage message) {
         if (message != null) {
             notificationMessages.Enqueue(message);
         }
@@ -69,7 +69,7 @@ public class IOManager : ManagerInterface {
             }
             ChessBase[] chessList = chessManager.getChessList();
             ChessCompletionMessage message = new ChessCompletionMessage(chessList.Length, chessManager.getChessList());
-            sendServerMessage(new NetMessage(request.user, message));
+            sendMessage(new NetMessage(request.user, message));
             break;
         default:
             break;

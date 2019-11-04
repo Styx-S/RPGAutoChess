@@ -13,8 +13,12 @@ public class Server {
     private ConcurrentDictionary<Socket, RequestUser> userSocketDic = new ConcurrentDictionary<Socket, RequestUser>(); // 先简单维护一下双向map
     private int idSeed = 0; // 用于区分不同的客户端
 
-    public void run() {
+    public Server() {
         ((IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName)).registerConsumeDelegate(dispatchMessage);
+        ManagerCollection.getCollection().init();
+    }
+
+    public void run() { 
         Thread serverThread = new Thread(handleServerWorker);
         Thread networkThread = new Thread(handleNetworkWorker);
         serverThread.Start();
@@ -22,7 +26,6 @@ public class Server {
     }
 
     private void handleServerWorker() {
-        ManagerCollection.getCollection().init();
         bool stopServer = false;
         // 标准时间间隔
         const float standardT = 1000.0f / CommonDefine.kLogicUpdateFPS;
