@@ -21,6 +21,9 @@ public class ChessCanvas : MonoBehaviour
     }
 
     public void displayText(string text, CommonDefine.fontSize size) {
+        foreach (Transform child in transform) {
+            child.gameObject.GetComponent<ChessText>().up();
+        }
         if (chessText != null) {
             GameObject hud = Instantiate(chessText, transform)as GameObject;
             Text hudText = hud.GetComponent<Text>();

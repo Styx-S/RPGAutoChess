@@ -35,6 +35,13 @@ public class ChessText : MonoBehaviour
         timer += Time.deltaTime;
         // GetComponent<Text>().fontSize--;
         GetComponent<Text>().color = new Color(1,0,0,1 - timer);
-        Destroy(gameObject,time);
+        if (timer >= time) {
+            Destroy(gameObject,0);
+        }
+    }
+
+    public void up() {
+        speed *= 2;
+        time /= 2;
     }
 }
