@@ -9,18 +9,33 @@ public class SerializeTools {
         BinaryFormatter bf = new BinaryFormatter();
         MemoryStream memoryStream = new MemoryStream();
         bf.Serialize(memoryStream, obj);
-        to.Send(intToBytes((int)memoryStream.Length));
-        to.Send(memoryStream.GetBuffer(), (int)memoryStream.Length, SocketFlags.None);
+        byte[] byteNums = intToBytes((int)memoryStream.Length);
+        writeToSocket(to, byteNums, byteNums.Length);
+        writeToSocket(to, memoryStream.GetBuffer(), (int) memoryStream.Length);
     }
 
     public static object deserializeObjectFromSocket(Socket from) {
         byte[] numBytes = new byte[4];
-        from.Receive(numBytes);
+        readFromSocket(from, numBytes, numBytes.Length);
         int num = bytesToInt(numBytes);
         byte[] buffer = new byte[num];
-        from.Receive(buffer);
+        readFromSocket(from, buffer, num);
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         return binaryFormatter.Deserialize(new MemoryStream(buffer));
+    }
+
+    public static void writeToSocket(Socket socket, byte[] buffer, int length) {
+        int leftCount = length;
+        while (leftCount > 0) {
+            leftCount -= socket.Send(buffer, length - leftCount, leftCount, SocketFlags.None);
+        }
+    }
+
+    public static void readFromSocket(Socket socket, byte[] buffer, int length) {
+        int leftCount = length;
+        while (leftCount > 0) {
+            leftCount -= socket.Receive(buffer, length - leftCount, leftCount, SocketFlags.None);
+        }
     }
 
     public static int bytesToInt(byte[] bytes) {
