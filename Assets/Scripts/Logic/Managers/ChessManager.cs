@@ -75,12 +75,19 @@ public class ChessManager : ManagerInterface
                 targets.Add(e);
             } 
         }
+        if (chess.target != null) {
+            if (targets.Contains(chess.target)) {
+                return chess.target;
+            }
+        }
         if (targets.Count != 0) {
             RandomManager rm = (RandomManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerRandomName);
             System.Random r = new System.Random(rm.next());
             ChessBase target = targets[r.Next(0,targets.Count)];
+            chess.target = target;
             return target;
         } else {
+            chess.target = null;
             return null;
         }
         
@@ -254,6 +261,16 @@ public class ChessManager : ManagerInterface
                 trueLimit.Add(e);
             }
         }
+        int newMob = mobility - 1;//
+        while ((trueLimit.Count == 0) && (newMob > 0)) {
+            limit = ChessLocation.getLimit(chess.location,locTarget,newMob);
+            foreach (ChessLocation e in limit) {
+                if (mChessMap[e.x][e.y] == null) {
+                    trueLimit.Add(e);
+                }
+            }
+            newMob--;
+        }//
         if (trueLimit.Count == 0) {
             return chess.location; 
         } else {
