@@ -12,6 +12,10 @@ public class ChessBase
     public ChessLocation location {     // 棋子当前位置
         get; set;
     }
+
+    public ChessBase target {
+        get; set;
+    }
     public bool isDead;             // 棋子是否死亡
 
     private static int nextChessID = 0;
@@ -24,6 +28,8 @@ public class ChessBase
         this.status = new ChessStatus(HP, strength, attachRadius, attachCoolingDelay, mobility, moveCoolingDelay);
         // 注册status回调
         this.status.onDeadDelegate = new onDead(this.die);
+
+        this.target = null;
     }
 
     // 进行一次行动
