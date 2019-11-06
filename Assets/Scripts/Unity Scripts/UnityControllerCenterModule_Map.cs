@@ -19,20 +19,20 @@ public class UnityControllerCenterModule_Map : IUnityControllerCenterModule {
         return true;
     }
 
-    private void notifyCamera(MapGrid[][] mapGrids) {
+    private void notifyCamera(Map map) {
         GameObject camera = GameObject.FindGameObjectWithTag(CommonDefine.kMainCameraNameTag);
         CameraController script;
         if (camera != null && (script = camera.GetComponent<CameraController>())) {
-            script.calCameraPosition(mapGrids);
+            script.calCameraPosition(map);
         }
         
     }
 
-    private void notifyMapUI(MapGrid[][] mapGrids) {
+    private void notifyMapUI(Map map) {
         GameObject mapUI = GameObject.FindGameObjectWithTag(CommonDefine.kMapUINameTag);
         GenMapUI script;
         if (mapUI != null && (script = mapUI.GetComponent<GenMapUI>())) {
-            script.genMap(mapGrids);
+            script.genMap(map);
         }
     }
 }

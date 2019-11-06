@@ -19,11 +19,11 @@ public class CameraController : MonoBehaviour
         
     }
 
-    public void calCameraPosition(MapGrid[][] grids) {
-        int m = grids.Length;
+    public void calCameraPosition(Map map) {
+        int m = map.width;
         int n;
         if (m > 0) {
-            n = grids[0].Length;
+            n = map.height;
         } else {
             return;
         }

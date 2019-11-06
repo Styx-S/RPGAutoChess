@@ -20,11 +20,11 @@ public class GenMapUI : MonoBehaviour {
     }
 
     /* 界面生成地图 */
-    public void genMap(MapGrid[][] grids) {
-        int m = grids.Length;
+    public void genMap(Map map) {
+        int m = map.width;
         int n;
         if (m > 0) {
-            n = grids[0].Length;
+            n = map.height;
         } else {
             return;
         }

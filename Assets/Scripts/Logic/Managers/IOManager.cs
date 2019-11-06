@@ -77,8 +77,8 @@ public class IOManager : ManagerInterface {
             if (mapManager == null) {
                 return;
             }
-            MapGrid[][] mapGridList = mapManager.mapGrids;
-            MapCompletionMessage mapCompletionMessage = new MapCompletionMessage(mapGridList.Length, mapGridList);
+            Map map = mapManager.map;
+            MapCompletionMessage mapCompletionMessage = new MapCompletionMessage(map.width, map);
             sendMessage(new NetMessage(request.user, mapCompletionMessage));
             break;
         default:
