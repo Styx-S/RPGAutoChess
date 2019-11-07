@@ -14,6 +14,7 @@ public class Server {
     private int idSeed = 0; // 用于区分不同的客户端
 
     public Server() {
+        // 逻辑的初始化写这里
         ((IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName)).registerConsumeDelegate(dispatchMessageWorker);
         ManagerCollection.getCollection().init();
     }

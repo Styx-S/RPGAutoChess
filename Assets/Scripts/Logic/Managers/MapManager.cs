@@ -1,25 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class MapManager : ManagerInterface {
+public class MapManager : ManagerInterface, CanConfigureSceneInterface {
     private Map mMap;
     public Map map {
         get {
             return mMap;
         }
     }
+
+    private string mSceneName;
+    public string sceneName {
+        get {
+            return mSceneName;
+        }
+    }
+
+    public MapManager() {
+
+    }
+
+    public MapManager(string sceneName){
+        mSceneName = sceneName;
+    }
+
     string ManagerInterface.getName() {
         return CommonDefine.kManagerMapName;
     }
     void ManagerInterface.init() {
-        this.mMap = new Map(10,10);
+        if (sceneName != null) {
+            SceneUtil.getUtil().configureFromScene(this, sceneName);
+        }
     }
 
     void ManagerInterface.update() {
         // do nothing
     }
 
-    public void configureMap(Map map) {
-        this.mMap = map;
+    void CanConfigureSceneInterface.configure(Scene scene) {
+        this.mMap = scene.map;
     }
 }

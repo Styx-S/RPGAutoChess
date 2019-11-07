@@ -9,8 +9,8 @@ public class ManagerCollection {
     private ManagerCollection() {
         managers.Add(new TimerTools());
         managers.Add(new RandomManager());
-        managers.Add(new MapManager());
-        managers.Add(new ChessManager());  
+        managers.Add(new MapManager("test"));
+        managers.Add(new ChessManager("test"));  
         managers.Add(new IOManager());
     } // 私有构造函数
     

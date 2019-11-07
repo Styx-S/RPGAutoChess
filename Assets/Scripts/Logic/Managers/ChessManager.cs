@@ -1,18 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class ChessManager : ManagerInterface
+public class ChessManager : ManagerInterface, CanConfigureSceneInterface
 {
 
     private List<ChessBase> mChessList = new List<ChessBase>();
     private Dictionary<ChessBase,Dictionary<ChessBase,int>> mDistanceMap = new Dictionary<ChessBase, Dictionary<ChessBase, int>>();
     private ChessBase[][] mChessMap;
+    private string mSceneName;
+    public string sceneName {
+        get {
+            return mSceneName;
+        }
+    }
+
+    public ChessManager() {
+
+    }
+    public ChessManager(string sceneName) {
+        mSceneName = sceneName;
+    }
 
     string ManagerInterface.getName() {
         return CommonDefine.kManagerChessName;
     }
     void ManagerInterface.init() {
-        loadChess();
+        if (mSceneName != null) {
+            SceneUtil.getUtil().configureFromScene(this, mSceneName);
+        }
     }
     void ManagerInterface.update() {
         ChessBase[] chesses = new ChessBase[mChessList.Count];
@@ -24,23 +39,17 @@ public class ChessManager : ManagerInterface
         }
     }
 
-    /* 从某个地方载入棋子到list中 */
-    public void loadChess() {
-        mChessMap = new ChessBase[6][];
-        for (int i = 0;i < mChessMap.Length;i++) {
-            mChessMap[i] = new ChessBase[7];
-            for (int j = 0;j < mChessMap[i].Length;j++) {
+    void CanConfigureSceneInterface.configure(Scene scene) {
+        mChessMap = new ChessBase[scene.map.width][];
+        for (int i = 0; i < mChessMap.Length; i++) {
+            mChessMap[i] = new ChessBase[scene.map.height];
+            for (int j = 0; j < mChessMap[i].Length; j++) {
                 mChessMap[i][j] = null;
             }
         }
-        Player playerA = new Player("1","A");   //暂时hardcode，之后用不到
-        Player playerB = new Player("2","B");
-        addChess(new ChessBase(playerA),new ChessLocation(0,0));
-        addChess(new ChessBase(playerA),new ChessLocation(1,1));
-        addChess(new ChessBase(playerA),new ChessLocation(1,2));
-        addChess(new ChessBase(playerB),new ChessLocation(5,6));
-        addChess(new ChessBase(playerB),new ChessLocation(4,5));
-        addChess(new ChessBase(playerB),new ChessLocation(5,4));
+        foreach(ChessBase chess in scene.chesses) {
+            addChess(chess, chess.location);
+        }
     }
 
     /* delegate： 用于通过ChessManager迭代查找时的过滤条件 */

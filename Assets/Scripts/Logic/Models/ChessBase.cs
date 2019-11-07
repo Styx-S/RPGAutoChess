@@ -21,10 +21,11 @@ public class ChessBase
     private static int nextChessID = 0;
     public int chessID = nextChessID++;
 
-    public ChessBase(Player owner, float HP = 100, float strength = 5, int attachRadius = 1, float attachCoolingDelay = 1.0f,
+    public ChessBase(Player owner, ChessLocation location,float HP = 100, float strength = 5, int attachRadius = 1, float attachCoolingDelay = 1.0f,
         int mobility = 1, float moveCoolingDelay = 1.0f) {
         
         this.owner = owner;
+        this.location = location;
         this.status = new ChessStatus(HP, strength, attachRadius, attachCoolingDelay, mobility, moveCoolingDelay);
         // 注册status回调
         this.status.onDeadDelegate = new onDead(this.die);
