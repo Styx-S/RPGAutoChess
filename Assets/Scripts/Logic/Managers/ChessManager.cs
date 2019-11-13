@@ -53,8 +53,8 @@ public class ChessManager : ManagerInterface, CanConfigureSceneInterface
     }
 
     /* delegate： 用于通过ChessManager迭代查找时的过滤条件 */
-    public delegate bool chessFilterMethod(ChessBase chess);
-    public List<ChessBase> pFindChesses(chessFilterMethod filter) {
+    public delegate bool chessFilteRandomUtilethod(ChessBase chess);
+    public List<ChessBase> pFindChesses(chessFilteRandomUtilethod filter) {
         List<ChessBase> results = new List<ChessBase>();
         foreach(ChessBase chess in mChessList) {
             if (filter(chess)) {
@@ -90,8 +90,7 @@ public class ChessManager : ManagerInterface, CanConfigureSceneInterface
             }
         }
         if (targets.Count != 0) {
-            RandomManager rm = (RandomManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerRandomName);
-            System.Random r = new System.Random(rm.next());
+            System.Random r = new System.Random(RandomUtil.next());
             ChessBase target = targets[r.Next(0,targets.Count)];
             chess.target = target;
             return target;
@@ -246,7 +245,6 @@ public class ChessManager : ManagerInterface, CanConfigureSceneInterface
             }
             temp.Clear();
         }
-        RandomManager rm = (RandomManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerRandomName);
         System.Random r;
         foreach (ChessLocation t in targets) {
             if (mobility >= ChessLocation.getDistance(chess.location,t)) {
@@ -256,12 +254,12 @@ public class ChessManager : ManagerInterface, CanConfigureSceneInterface
         if (temp.Count != 0) {
             ChessLocation[] tempTargets = new ChessLocation[temp.Count];
             temp.CopyTo(tempTargets);
-            r = new System.Random(rm.next());
+            r = new System.Random(RandomUtil.next());
             return tempTargets[r.Next(0,tempTargets.Length)];
         }
         ChessLocation[] locTargets = new ChessLocation[targets.Count];
         targets.CopyTo(locTargets);
-        r = new System.Random(rm.next());
+        r = new System.Random(RandomUtil.next());
         ChessLocation locTarget = locTargets[r.Next(0,locTargets.Length)];
         List<ChessLocation> limit = ChessLocation.getLimit(chess.location,locTarget,mobility);
         List<ChessLocation> trueLimit = new List<ChessLocation>();
@@ -283,7 +281,7 @@ public class ChessManager : ManagerInterface, CanConfigureSceneInterface
         if (trueLimit.Count == 0) {
             return chess.location; 
         } else {
-            r = new System.Random(rm.next());
+            r = new System.Random(RandomUtil.next());
             ChessLocation t = trueLimit[r.Next(0,trueLimit.Count)];
             return t;
         }
