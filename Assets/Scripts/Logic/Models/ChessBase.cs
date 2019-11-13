@@ -56,8 +56,13 @@ public class ChessBase
         } else {
             // 当前是否处于可攻击状态
             if (this.status.canAttach()) {
-                target.underAttach(this, status.getAttachDamage());
-                status.setAttachCooling();
+                // 交由其他部分响应攻击事件
+                Event attackEvent = EventHelper.getDispatcher().throwEvent(new ChessAttackEvent(this, target, status.getAttachDamage()));
+                if (attackEvent.isCanceled == false) {
+                    // 攻击事件结果处理
+                    target.underAttach(this, status.getAttachDamage());
+                    status.setAttachCooling();
+                }
             }
         }
     }
