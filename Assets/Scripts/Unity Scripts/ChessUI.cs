@@ -5,6 +5,9 @@ using UnityEngine;
 /* ChessUI: 挂在Chess Sprite上进行控制的脚本 */
 public class ChessUI : MonoBehaviour
 {
+    public ChessBase chess {
+        get;set;
+    }
     // Start is called before the first frame update
     void Start()
     {

@@ -7,11 +7,14 @@ public class CommonDefine
     public const string kControllerNameTag = "GameController";         // Controller GameObject
     public const string kMainCameraNameTag = "MainCamera";              // Camera tag
     public const string kMapUINameTag = "MapUI";                        // MapUI tag
+    public const string kObjPanelTag = "ObjPanel";
     public const string kMapGridObjectName = "MapGridObject";       // 生成的Map块名字
     public const string kMapGridSpritePath = "Textures/MapGrid";    // Map块素材载入路径
     public const string kChessPrefabPath = "Prefab/DemoChess";   // chess素材载入路径
 
     public const string kMapGridPrefabPath = "Prefab/MapGrid";
+    public const string kObjAttrPrefabPath = "Prefab/ObjAttr";
+    public const string kObjImagPrefabPath = "Prefab/ObjImag";
 
     public const string kManagerMapName = "MapManager";         // MapManager键
     public const string kManagerChessName = "ChessManager";     // ChessManager键
@@ -28,6 +31,14 @@ public class CommonDefine
     public const int kDefaultPort = 53216;      // 默认端口
 
     public const int kLogicUpdateFPS = 30;
+
+    public const string kPanelChessName = "名字";
+    public const string kPanelChessHP = "血量";
+    public const string kPanelChessAtk = "攻击力";
+    public const string kPanelChessAtkRad = "攻击范围";
+    public const string kPanelChessAtkDel = "攻击间隔";
+    public const string kPanelChessMob = "移动力";
+    public const string kPanelChessMovDel = "移动间隔";
 
     public class kPlayerColor {
         public const float r = 0.8f;

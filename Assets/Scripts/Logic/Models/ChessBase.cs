@@ -3,7 +3,9 @@
 [Serializable]
 public class ChessBase
 {
-    private ChessStatus status;         // 棋子状态
+    public ChessStatus status {
+        get;
+    }         // 棋子状态
     public Player owner {               // 棋子所属玩家
         get; set;
     }

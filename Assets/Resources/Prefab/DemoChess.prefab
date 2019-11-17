@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 9139368820376382886}
   - component: {fileID: 7915777576951165161}
   - component: {fileID: 1737031006896509016}
+  - component: {fileID: 603365009023457744}
   m_Layer: 0
   m_Name: DemoChess
   m_TagString: Untagged
@@ -204,5 +205,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4a95d49467844c40afb805d11c6dcf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &603365009023457744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7516938681980150031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a862707781a54d92481d4e5931b90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -55,6 +55,7 @@ public class CenterModule_Chess : IUnityControllerCenterModule
         gameObjectDic[chess] = instance;
         ChessUI ui = instance.GetComponent<ChessUI>();
         ui.initColor(chess.owner);
+        ui.chess = chess;
     }
 
     private void removeChess(ChessBase chess) {
