@@ -10,6 +10,7 @@ public class CommonDefine
     public const string kMapGridObjectName = "MapGridObject";       // 生成的Map块名字
     public const string kMapGridSpritePath = "Textures/MapGrid";    // Map块素材载入路径
     public const string kChessPrefabPath = "Prefab/DemoChess";   // chess素材载入路径
+    public const string kSceneSaveRootPath = "Scene/";          // Scene根路径
 
     public const string kMapGridPrefabPath = "Prefab/MapGrid";
 

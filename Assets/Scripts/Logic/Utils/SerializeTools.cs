@@ -1,4 +1,6 @@
 ﻿using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
@@ -22,6 +24,16 @@ public class SerializeTools {
         readFromSocket(from, buffer, num);
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         return binaryFormatter.Deserialize(new MemoryStream(buffer));
+    }
+
+    public static void serializeObjectToJson (Stream stream, Object obj) {
+        DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(obj.GetType());
+        jsonSerializer.WriteObject(stream, obj);
+    }
+
+    public static T deserializeObjectFromJson<T>(Stream stream) {
+        DataContractSerializer jsonSerializer = new DataContractSerializer(typeof(T));
+        return (T)jsonSerializer.ReadObject(stream);
     }
 
     public static void writeToSocket(Socket socket, byte[] buffer, int length) {
