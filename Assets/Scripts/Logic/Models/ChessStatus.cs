@@ -8,12 +8,24 @@ public delegate void onDead();          // 棋子死亡时回调
  [Serializable]
 public class ChessStatus
 {
-    private float HP;                   // 血量
-    private float strength;             // 攻击力
-    private int attachRadius;         // 攻击范围
-    private float attachCoolingDelay;   // 攻击间隔
-    private int mobility;               // 移动力
-    private float moveCoolingDelay;     // 移动间隔
+    public float HP {
+        get;set;
+    }                   // 血量
+    public float strength {
+        get;set;
+    }             // 攻击力
+    public int attachRadius {
+        get;set;
+    }         // 攻击范围
+    public float attachCoolingDelay {
+        get;set;
+    }   // 攻击间隔
+    public int mobility {
+        get;set;
+    }               // 移动力
+    public float moveCoolingDelay {
+        get;set;
+    }     // 移动间隔
 
     private bool attachCooling; // 攻击冷却状态
     private bool moveCooling;   // 移动冷却状态
