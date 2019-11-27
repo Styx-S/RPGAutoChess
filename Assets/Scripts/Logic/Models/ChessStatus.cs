@@ -8,39 +8,87 @@ public delegate void onDead();          // 棋子死亡时回调
  [Serializable]
 public class ChessStatus
 {
-    public float HP {
-        get;set;
-    }                   // 血量
-    public float strength {
-        get;set;
-    }             // 攻击力
-    public int attachRadius {
-        get;set;
-    }         // 攻击范围
-    public float attachCoolingDelay {
-        get;set;
-    }   // 攻击间隔
-    public int mobility {
-        get;set;
-    }               // 移动力
-    public float moveCoolingDelay {
-        get;set;
-    }     // 移动间隔
+    private float mHP;                  // 血量
+    private float mStrength;            // 攻击力
+    private int mAttackRadius;        // 攻击范围
+    private float mAttackCoolingDelay;  // 攻击间隔
+    private int mMobility;            // 移动力
+    private float mMoveCoolingDelay;    // 移动间隔
 
-    private bool attachCooling; // 攻击冷却状态
+    
+
+    public float HP {
+        get {
+            return mHP;
+        } set {
+            mHP = HP;
+        }
+    }
+    public float strength {
+        get {
+            return mStrength;
+        } set {
+            mStrength = strength;
+        }
+    }
+    public int attackRadius {
+        get {
+            return mAttackRadius;
+        } set {
+            mAttackRadius = attackRadius;
+        }
+    }
+    public float attackCoolingDelay {
+        get {
+            return mAttackCoolingDelay;
+        } set {
+            // 更改时要重新计算是否在冷却当中
+            if (attackCooling) {
+                attackCoolingTimerReceipt.updateTimer(attackCoolingDelay - mAttackCoolingDelay);
+            }
+            mAttackCoolingDelay = attackCoolingDelay;
+        }
+    }
+    public int mobility {
+        get {
+            return mMobility;
+        } set {
+            mMobility = mobility;
+        }
+    }
+    public float moveCoolingDelay {
+        get {
+            return mMoveCoolingDelay;
+        } set {
+            // 重新计算冷却时间
+            if (moveCooling) {
+                moveCoolingTimerReceipt.updateTimer(moveCoolingDelay - mMoveCoolingDelay);
+            }
+            mMoveCoolingDelay = moveCoolingDelay;
+        }
+    }
+
+    [NonSerialized]
+    private bool attackCooling; // 攻击冷却状态
+    [NonSerialized]
+    private TimerReceipt attackCoolingTimerReceipt;
+    [NonSerialized]
     private bool moveCooling;   // 移动冷却状态
+    [NonSerialized]
+    private TimerReceipt moveCoolingTimerReceipt;
 
     public onDead onDeadDelegate;
 
-    public ChessStatus(float HP, float strength, int attachRadius, float attachCoolingDelay,
+    public ChessStatus(float HP, float strength, int attackRadius, float attackCoolingDelay,
         int mobility, float moveCoolingDelay) {
         
-        this.HP = HP;
-        this.strength = strength;
-        this.attachRadius = attachRadius;
-        this.attachCoolingDelay = attachCoolingDelay;
-        this.mobility = mobility;
-        this.moveCoolingDelay = moveCoolingDelay;
+        // TODO: 这里有一处奇怪的问题，如果把所有的mValue改为this.value就会出现问题，后面再研究
+        mHP = HP;
+        mStrength = strength;
+        mAttackRadius = attackRadius;
+        mAttackCoolingDelay = attackCoolingDelay;
+        mMobility = mobility;
+        mMoveCoolingDelay = moveCoolingDelay;
     }
 
     public bool isDead() {
@@ -49,24 +97,24 @@ public class ChessStatus
 
     private float lastAttachTime = 0;
     /* 目前是否可以攻击 */
-    public bool canAttach() {
-        return !attachCooling;
+    public bool canAttack() {
+        return !attackCooling;
     }
 
     /* 进入攻击冷却 */
-    public void setAttachCooling() {
-        attachCooling = true;
-        TimerTools.getTimerTools().setTimer(attachCoolingDelay, new TimerAction(resetAttachCooling));
+    public void setAttackCooling() {
+        attackCooling = true;
+        attackCoolingTimerReceipt = TimerTools.getTimerTools().setTimer(attackCoolingDelay, new TimerAction(resetAttackCooling));
     }
 
     /* 获取目前攻击力 */
-    public float getAttachDamage() {
+    public float getAttackDamage() {
         return strength;
     }
 
     /* 获取目前攻击范围 */
-    public int getAttachRadius() {
-        return attachRadius;
+    public int getAttackRadius() {
+        return attackRadius;
     }
 
     /* 受到伤害 */
@@ -87,7 +135,7 @@ public class ChessStatus
     /* 进入移动冷却 */
     public void setMoveCooling() {
         moveCooling = true;
-        TimerTools.getTimerTools().setTimer(moveCoolingDelay, new TimerAction(resetMoveCooling));
+        moveCoolingTimerReceipt = TimerTools.getTimerTools().setTimer(moveCoolingDelay, new TimerAction(resetMoveCooling));
     }
 
     /* 获取移动力 */
@@ -95,8 +143,8 @@ public class ChessStatus
         return mobility;
     }
 
-    private void resetAttachCooling() {
-        this.attachCooling = false;
+    private void resetAttackCooling() {
+        this.attackCooling = false;
     }
     private void resetMoveCooling() {
         this.moveCooling = false;
