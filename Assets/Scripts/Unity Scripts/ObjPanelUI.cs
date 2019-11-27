@@ -38,9 +38,9 @@ public class ObjPanelUI : MonoBehaviour
             dicChessState[CommonDefine.kPanelChessAtk].GetComponent<ObjAttr>().Value
                 .GetComponent<Text>().text = chess.status.strength.ToString();
             dicChessState[CommonDefine.kPanelChessAtkRad].GetComponent<ObjAttr>().Value
-                .GetComponent<Text>().text = chess.status.attachRadius.ToString();
+                .GetComponent<Text>().text = chess.status.attackRadius.ToString();
             dicChessState[CommonDefine.kPanelChessAtkDel].GetComponent<ObjAttr>().Value
-                .GetComponent<Text>().text = chess.status.attachCoolingDelay.ToString();
+                .GetComponent<Text>().text = chess.status.attackCoolingDelay.ToString();
             dicChessState[CommonDefine.kPanelChessMob].GetComponent<ObjAttr>().Value
                 .GetComponent<Text>().text = chess.status.mobility.ToString();
             dicChessState[CommonDefine.kPanelChessMovDel].GetComponent<ObjAttr>().Value

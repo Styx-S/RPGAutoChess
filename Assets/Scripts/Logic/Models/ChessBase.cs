@@ -45,7 +45,7 @@ public class ChessBase
         if (target == null) {
             return;
         }
-        if (ChessManager.getDistance(this, target) > status.getAttachRadius()) {
+        if (ChessManager.getDistance(this, target) > status.getAttackRadius()) {
             // 处于攻击范围之外, 向它移动
             ChessLocation moveTo = chessManager.findActualTarget(this, status.getMobility(), target.location);
             if (moveTo == this.location || !status.canMove()) {
@@ -57,13 +57,13 @@ public class ChessBase
             }
         } else {
             // 当前是否处于可攻击状态
-            if (this.status.canAttach()) {
+            if (this.status.canAttack()) {
                 // 交由其他部分响应攻击事件
-                Event attackEvent = EventHelper.getDispatcher().throwEvent(new ChessAttackEvent(this, target, status.getAttachDamage()));
+                Event attackEvent = EventHelper.getDispatcher().throwEvent(new ChessAttackEvent(this, target, status.getAttackDamage()));
                 if (attackEvent.isCanceled == false) {
                     // 攻击事件结果处理
-                    target.underAttach(this, status.getAttachDamage());
-                    status.setAttachCooling();
+                    target.underAttach(this, status.getAttackDamage());
+                    status.setAttackCooling();
                 }
             }
         }
