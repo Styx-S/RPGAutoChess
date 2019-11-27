@@ -6,8 +6,15 @@ using UnityEngine.UI;
 public class ObjPanelUI : MonoBehaviour
 {
     [SerializeField]
+    private ChessBase _chess;
     public ChessBase chess {
-        get; set;
+        get {
+            return _chess;
+        }
+        set {
+            Debug.Log("set");
+            _chess = value;
+        }
     }
 
     private GameObject ObjAttrPref;
@@ -52,6 +59,7 @@ public class ObjPanelUI : MonoBehaviour
 
     private void initObjImag() { //TODO:没写完 要改
         GameObject obj = Instantiate(ObjImagPref);
+        obj.transform.parent = transform;
         obj.SetActive(false);
         dicChessState.Add(CommonDefine.kPanelChessName,obj);
     }
@@ -59,6 +67,7 @@ public class ObjPanelUI : MonoBehaviour
     private void initObjAttr(string name) {
         GameObject obj = Instantiate(ObjAttrPref);
         obj.GetComponent<ObjAttr>().Key.GetComponent<Text>().text = name;
+        obj.transform.parent = transform;
         obj.SetActive(false);
         dicChessState.Add(name,obj);
     }
@@ -66,6 +75,7 @@ public class ObjPanelUI : MonoBehaviour
     private void setPanelActive(bool isActive) {
         foreach (GameObject e in dicChessState.Values) {
             if (isActive != e.activeSelf) {
+                Debug.Log("active");
                 e.SetActive(isActive);
             }
         }

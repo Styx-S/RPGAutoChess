@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ChessClick : MonoBehaviour
 {
+    [SerializeField]
     private GameObject panel = null;
     
     void Awake() {
