@@ -54,3 +54,35 @@ public interface EventDispatcher {
 
     Event throwEvent(Event e);
 }
+
+// 同时具有线性与非线性叠加事件
+// 如技能释放事件(技能冷却时间)、移动事件(移动冷却时间)、攻击事件(攻击冷却时间)
+public class OverlayEvent : Event {
+    // 增益值
+    protected float mBuffValue;
+    // 线性时间减少 
+    protected float mLinearUpgrade = 1;
+    // 非线性时间减少
+    protected float mNoLinearUpgrade = 1;
+
+    public float buffValue {
+        get {
+            // 先结算线性增益，再结算非线性增益
+            return mBuffValue * mLinearUpgrade * mNoLinearUpgrade;
+        }
+    }
+
+    public float addLinearUpgrade(float value) {
+        mLinearUpgrade += value;
+        return mLinearUpgrade;
+    }
+
+    public float addNoLinearUpgrade(float value) {
+        mLinearUpgrade *= value;
+        return mNoLinearUpgrade;
+    }
+    
+    public OverlayEvent(string eventName) : base(eventName) {
+
+    }
+}

@@ -44,6 +44,14 @@ public class ChessBase
         ChessBase target = chessManager.selectTarget(this);
         if (target == null) {
             return;
+        } else {
+            ChessSelectTargetEvent selectTargetEvent = (ChessSelectTargetEvent)EventHelper.getDispatcher()
+                .throwEvent(new ChessSelectTargetEvent(this, target));
+            if (selectTargetEvent.isCanceled == true || selectTargetEvent.target == null) {
+                return;
+            } else {
+                target = selectTargetEvent.target;
+            }
         }
         if (ChessManager.getDistance(this, target) > status.getAttackRadius()) {
             // 处于攻击范围之外, 向它移动
@@ -52,18 +60,24 @@ public class ChessBase
                 // 无法移动
                 return;
             } else {
-                chessManager.moveChess(this, moveTo);
-                status.setMoveCooling();
+                ChessMoveEvent moveEvent = (ChessMoveEvent)EventHelper.getDispatcher()
+                    .throwEvent(new ChessMoveEvent(this, moveTo, status.moveCoolingDelay));
+                if (moveEvent.isCanceled == false) {
+                    chessManager.moveChess(moveEvent.chess, moveEvent.moveTo);
+                    status.setMoveCooling(moveEvent.moveCoolingValue);
+                }
             }
         } else {
             // 当前是否处于可攻击状态
             if (this.status.canAttack()) {
                 // 交由其他部分响应攻击事件
-                Event attackEvent = EventHelper.getDispatcher().throwEvent(new ChessAttackEvent(this, target, status.getAttackDamage()));
+                ChessAttackEvent attackEvent = (ChessAttackEvent)EventHelper.getDispatcher()
+                    .throwEvent(new ChessAttackEvent(this, target, status.getAttackDamage(), status.attackCoolingDelay));
                 if (attackEvent.isCanceled == false) {
                     // 攻击事件结果处理
-                    target.underAttach(this, status.getAttackDamage());
-                    status.setAttackCooling();
+                    attackEvent.victim.underAttach(attackEvent.attacker, attackEvent.damage);
+                    status.setAttackCooling(attackEvent.attackCoolingValue);
+                    // TODO: 这里暂时只对事件中造成对伤害和冷却进行了处理，更多效果后续再说
                 }
             }
         }
@@ -77,16 +91,21 @@ public class ChessBase
     /* 棋子被攻击 
        @return 攻击造成的实际伤害
          */
-    public float underAttach(ChessBase attacher, float damage) {
-        float casueDamage = this.status.damage(damage);
+    public float underAttach(ChessBase attacker, float damage) {
+        float casueDamage = this.status.damage(attacker, damage);
         // TODO: 暂时在这里发出攻击事件，后续应该会写一个事件处理系统
         ((IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName))
-            .sendMessage(new ChessIncrementMessage_chessAttach(attacher, this, casueDamage));
+            .sendMessage(new ChessIncrementMessage_chessAttach(attacker, this, casueDamage));
         return casueDamage;
     }
 
     /* 调用后棋子死亡 */
-    public void die() {
+    public void die(DeathReason reason, DeathInfo info) {
+        ChessDeathEvent deathEvent = (ChessDeathEvent)EventHelper.getDispatcher()
+            .throwEvent(new ChessDeathEvent(this, reason, info));
+        if (deathEvent.isCanceled) {
+            return;
+        }
         this.isDead = true;
         chessManager.removeChess(this);
     }

@@ -1,5 +1,5 @@
 ﻿
-public class ChessAttackEvent : Event {
+public class ChessAttackEvent : OverlayEvent {
     private ChessBase mAttacker;
     private ChessBase mVictim;
 
@@ -15,6 +15,12 @@ public class ChessAttackEvent : Event {
             return mVictim;
         }
     }
+    /* 攻击冷却（封装来自OverlayEvent的BuffValue） */
+    public float attackCoolingValue {
+        get {
+            return mBuffValue;
+        }
+    }
 
     // 事件涉及的数值处理需要将结果写在事件当中传递，便于多个事件处理的叠加与覆写
     // 最后由事件的抛出方统一处理，同时交UI显示
@@ -27,9 +33,10 @@ public class ChessAttackEvent : Event {
     public float steal = 0;
 
 
-    public ChessAttackEvent(ChessBase attacker, ChessBase victim, float damage) : base(EventName.ChessAttackEventName) {
+    public ChessAttackEvent(ChessBase attacker, ChessBase victim, float damage, float cooling) : base(EventName.ChessAttackEventName) {
         mAttacker = attacker;
         mVictim = victim;
         this.damage = damage;
+        mBuffValue = cooling;
     }
 }

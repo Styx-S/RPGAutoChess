@@ -1,6 +1,6 @@
 ﻿using System;
 
-public delegate void onDead();          // 棋子死亡时回调
+public delegate void onDead(DeathReason reason, DeathInfo info);          // 棋子死亡时回调
 
 /*
     @description: 管理角色状态以及各种Buff效果
@@ -21,21 +21,21 @@ public class ChessStatus
         get {
             return mHP;
         } set {
-            mHP = HP;
+            mHP = value;
         }
     }
     public float strength {
         get {
             return mStrength;
         } set {
-            mStrength = strength;
+            mStrength = value;
         }
     }
     public int attackRadius {
         get {
             return mAttackRadius;
         } set {
-            mAttackRadius = attackRadius;
+            mAttackRadius = value;
         }
     }
     public float attackCoolingDelay {
@@ -44,16 +44,16 @@ public class ChessStatus
         } set {
             // 更改时要重新计算是否在冷却当中
             if (attackCooling) {
-                attackCoolingTimerReceipt.updateTimer(attackCoolingDelay - mAttackCoolingDelay);
+                attackCoolingTimerReceipt.updateTimer(value - mAttackCoolingDelay);
             }
-            mAttackCoolingDelay = attackCoolingDelay;
+            mAttackCoolingDelay = value;
         }
     }
     public int mobility {
         get {
             return mMobility;
         } set {
-            mMobility = mobility;
+            mMobility = value;
         }
     }
     public float moveCoolingDelay {
@@ -62,9 +62,9 @@ public class ChessStatus
         } set {
             // 重新计算冷却时间
             if (moveCooling) {
-                moveCoolingTimerReceipt.updateTimer(moveCoolingDelay - mMoveCoolingDelay);
+                moveCoolingTimerReceipt.updateTimer(value - mMoveCoolingDelay);
             }
-            mMoveCoolingDelay = moveCoolingDelay;
+            mMoveCoolingDelay = value;
         }
     }
 
@@ -102,9 +102,9 @@ public class ChessStatus
     }
 
     /* 进入攻击冷却 */
-    public void setAttackCooling() {
+    public void setAttackCooling(float interval) {
         attackCooling = true;
-        attackCoolingTimerReceipt = TimerTools.getTimerTools().setTimer(attackCoolingDelay, new TimerAction(resetAttackCooling));
+        attackCoolingTimerReceipt = TimerTools.getTimerTools().setTimer(interval, new TimerAction(resetAttackCooling));
     }
 
     /* 获取目前攻击力 */
@@ -118,11 +118,11 @@ public class ChessStatus
     }
 
     /* 受到伤害 */
-    public float damage(float value) {
+    public float damage(ChessBase attacker, float value) {
         float causeDamage = value < this.HP ? value : this.HP;
         this.HP = this.HP - causeDamage;
         if (this.HP <= 0 && onDeadDelegate != null) {
-            onDeadDelegate();
+            onDeadDelegate(DeathReason.ChessAttack, DeathInfo.makeInfoByAttack(attacker, value));
         }
         return causeDamage;
     }
@@ -133,9 +133,9 @@ public class ChessStatus
     }
 
     /* 进入移动冷却 */
-    public void setMoveCooling() {
+    public void setMoveCooling(float interval) {
         moveCooling = true;
-        moveCoolingTimerReceipt = TimerTools.getTimerTools().setTimer(moveCoolingDelay, new TimerAction(resetMoveCooling));
+        moveCoolingTimerReceipt = TimerTools.getTimerTools().setTimer(interval, new TimerAction(resetMoveCooling));
     }
 
     /* 获取移动力 */
