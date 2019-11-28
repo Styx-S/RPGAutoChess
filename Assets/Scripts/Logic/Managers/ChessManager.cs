@@ -149,9 +149,14 @@ public class ChessManager : ManagerInterface, CanConfigureSceneInterface
     }
 
     /* 增加棋子 */
-    public void addChess(ChessBase chess, ChessLocation location) {
+    public bool addChess(ChessBase chess, ChessLocation location) {
+        ChessSpawnEvent spawnEvent = (ChessSpawnEvent)EventHelper.getDispatcher()
+            .throwEvent(new ChessSpawnEvent(chess, location));
+        if (spawnEvent.isCanceled) {
+            return false;
+        }
         // 由ChessManager来通知Chess的新位置
-        chess.notifyLocation(this, location);
+        chess.notifyLocation(this, spawnEvent.spawnLocation);
 
         // 通知IOManager棋子生成消息
         ((IOManager)ManagerCollection.getCollection().GetManager(CommonDefine.kManagerIOName))
@@ -166,6 +171,7 @@ public class ChessManager : ManagerInterface, CanConfigureSceneInterface
             dic.Add(e,distance);
         }
         mDistanceMap.Add(chess,dic);
+        return true;
     }
 
     /* 获取chess某个距离内所有其他棋子 */
