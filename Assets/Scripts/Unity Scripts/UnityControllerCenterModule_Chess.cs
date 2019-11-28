@@ -36,7 +36,7 @@ public class CenterModule_Chess : IUnityControllerCenterModule
                 forwardMessage_move((ChessIncrementMessage_chessMove)message);
                 break;
             case ChessIncrementMessageType.chessAttach:
-                forwardMessage_attach((ChessIncrementMessage_chessAttach)message);
+                forwardMessage_attack((ChessIncrementMessage_chessAttach)message);
                 break;
             default:
                 Debug.Log("不支持的控制器消息类型");
@@ -72,6 +72,8 @@ public class CenterModule_Chess : IUnityControllerCenterModule
         if (gameObjectDic.ContainsKey(chess)) {
             GameObject instance = gameObjectDic[chess];
             ChessUI chessUI = instance.GetComponent<ChessUI>();
+            // 同步ChessBase的状态
+            chessUI.chess = chess;
             if (chessUI != null) {
                 chessUI.playAnimation(args);
                 return;
@@ -84,11 +86,14 @@ public class CenterModule_Chess : IUnityControllerCenterModule
         forward(message.chess, ChessAnimationMoveArgs.transFrom(message));
     }
 
-    private void forwardMessage_attach(ChessIncrementMessage_chessAttach message) {
+    private void forwardMessage_attack(ChessIncrementMessage_chessAttach message) {
         if (gameObjectDic.ContainsKey(message.attacher) && gameObjectDic.ContainsKey(message.victim)) {
             ChessUI attacher = gameObjectDic[message.attacher].GetComponent<ChessUI>(),
                 victim = gameObjectDic[message.victim].GetComponent<ChessUI>();
             if (attacher != null && victim != null) {
+                // 更新一下状态
+                attacher.chess = message.attacher;
+                victim.chess = message.victim;
                 attacher.playAnimation(new ChessAnimationAttachArgs());
                 victim.playAnimation(new ChessAnimationHurtArgs(message.causeDamage));
             }
