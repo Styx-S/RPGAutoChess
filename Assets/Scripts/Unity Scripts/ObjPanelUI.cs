@@ -6,14 +6,17 @@ using UnityEngine.UI;
 public class ObjPanelUI : MonoBehaviour
 {
     [SerializeField]
-    private ChessBase _chess;
-    public ChessBase chess {
+    private ChessBase chess;
+
+    [SerializeField]
+    private GameObject _obj;
+    public GameObject obj {
         get {
-            return _chess;
+            return _obj;
         }
         set {
             Debug.Log("set");
-            _chess = value;
+            _obj = value;
         }
     }
 
@@ -24,6 +27,7 @@ public class ObjPanelUI : MonoBehaviour
     void Awake() {
         ObjAttrPref = Resources.Load(CommonDefine.kObjAttrPrefabPath) as GameObject;
         ObjImagPref = Resources.Load(CommonDefine.kObjImagPrefabPath) as GameObject;
+        obj = null;
         chess = null;
     }
     
@@ -38,7 +42,8 @@ public class ObjPanelUI : MonoBehaviour
     }
 
     void Update() {
-        if (chess != null) {
+        if (obj != null) {
+            chess = obj.GetComponent<ChessUI>().chess;
             setPanelActive(true);
             dicChessState[CommonDefine.kPanelChessHP].GetComponent<ObjAttr>().Value
                 .GetComponent<Text>().text = chess.status.HP.ToString();
