@@ -16,6 +16,7 @@ public class CommonDefine
     public const string kMapGridPrefabPath = "Prefab/MapGrid";
     public const string kObjAttrPrefabPath = "Prefab/ObjAttr";
     public const string kObjImagPrefabPath = "Prefab/ObjImag";
+    public const string kChessRingPrefabPath = "Prefab/ChessRing";
 
     public const string kManagerMapName = "MapManager";         // MapManager键
     public const string kManagerChessName = "ChessManager";     // ChessManager键

@@ -12,6 +12,7 @@ public class ChessClick : MonoBehaviour
     }
 
     void OnMouseUpAsButton() {
-        panel.GetComponent<ObjPanelUI>().obj = gameObject;
+        // panel.GetComponent<ObjPanelUI>().obj = gameObject;
+        panel.GetComponent<ObjPanelUI>().setObj(gameObject);
     }
 }

@@ -27,7 +27,6 @@ public class ObjPanelUI : MonoBehaviour
     void Awake() {
         ObjAttrPref = Resources.Load(CommonDefine.kObjAttrPrefabPath) as GameObject;
         ObjImagPref = Resources.Load(CommonDefine.kObjImagPrefabPath) as GameObject;
-        obj = null;
         chess = null;
     }
     
@@ -84,5 +83,13 @@ public class ObjPanelUI : MonoBehaviour
                 e.SetActive(isActive);
             }
         }
+    }
+
+    public void setObj(GameObject ob) {
+        if (obj != null) {
+            obj.GetComponent<ChessUI>().unDisplayRing();
+        }
+        obj = ob;
+        obj.GetComponent<ChessUI>().displayRing();
     }
 }

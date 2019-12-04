@@ -5,16 +5,22 @@ using UnityEngine;
 /* ChessUI: 挂在Chess Sprite上进行控制的脚本 */
 public class ChessUI : MonoBehaviour
 {
+    private GameObject ringPrab;
+    private GameObject ring;
+    
     public ChessBase chess {
         get;set;
     }
-    // Start is called before the first frame update
+
+    void Awake() {
+        ringPrab = Resources.Load(CommonDefine.kChessRingPrefabPath) as GameObject;
+        ring = null;
+    }
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -66,6 +72,22 @@ public class ChessUI : MonoBehaviour
         } else {
             renderer.color = new Color(CommonDefine.kEnemyColor.r,
                 CommonDefine.kEnemyColor.g,CommonDefine.kEnemyColor.b,CommonDefine.kEnemyColor.a);
+        }
+    }
+
+    public void displayRing() {
+        if (ring != null) {
+            ring.SetActive(true);
+        } else {
+            ring = Instantiate(ringPrab);
+            ring.transform.parent = transform;
+            ring.transform.localPosition = Vector3.zero;
+        }
+    }
+
+    public void unDisplayRing() {
+        if (ring != null) {
+            ring.SetActive(false);
         }
     }
 }
